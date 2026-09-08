@@ -10,7 +10,7 @@ def register(request):
         complete_name = request.POST.get('complete_name')
         contact_number = request.POST.get('contact_number')
         barangay = request.POST.get('barangay')
-        type_of_user = request.POST.get('role')
+        type_of_user = request.POST.get('type_of_user')
 
         user = User.objects.create_user(
             username=username,
