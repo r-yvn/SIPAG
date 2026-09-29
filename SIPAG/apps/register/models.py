@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from core.models import Barangay, Sitio
+from apps.core.models import Barangay, Sitio
 
 class User(AbstractUser):
     TYPES = [('admin', 'Admin'),('encoder', 'Encoder')]

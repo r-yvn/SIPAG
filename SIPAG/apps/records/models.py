@@ -1,6 +1,6 @@
 from django.db import models
-from register.models import User
-from core.models import Sitio
+from apps.register.models import User
+from apps.core.models import Sitio
 
 # Create your models here.
 class HouseholdRecord(models.Model):

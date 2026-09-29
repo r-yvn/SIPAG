@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
-from .models import UserProfile
+from .models import User
 from apps.profiles.models import Profile
 from apps.user_settings.models import UserSettings
 
@@ -37,7 +37,7 @@ def register_view(request):
             email_notifications=True
         )
 
-        user_profile = UserProfile(
+        user_profile = User(
             user=user, 
             barangay=barangay, 
             type_of_user=type_of_user, 
