@@ -1,0 +1,149 @@
+/* Color Palette & Font Setup */
+:root {
+    --sipag-green: #63d038;
+    --sipag-blue: #38b6ff;
+    --dark-overlay: rgba(0, 0, 0, 0.55);
+    --light-gray-input: #dcdcdc;
+    --text-dark: #222222;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: var(--text-dark);
+}
+
+/* Button Styles */
+.btn {
+    border: none;
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.btn-green {
+    background-color: var(--sipag-green);
+    color: #ffffff;
+}
+
+.btn-blue {
+    background-color: var(--sipag-blue);
+    color: #ffffff;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    background-color: var(--light-gray-input);
+    border-radius: 18px;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.form-footer-text {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.form-footer-text a {
+    color: #000;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+/* Base Split Container for Login/Register */
+.split-container {
+    display: flex;
+    min-height: 450px;
+    width: 100%;
+    max-width: 950px;
+    margin: 40px auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.split-form {
+    flex: 1;
+    padding: 50px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.split-form h2 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.split-banner {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #ffffff;
+}
+
+.split-banner::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--dark-overlay);
+}
+
+.banner-content {
+    position: relative;
+    z-index: 1;
+}
+
+.banner-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.banner-title .highlight-green { color: var(--sipag-green); }
+.banner-title .highlight-blue { color: var(--sipag-blue); }
+
+.banner-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.95;
+}

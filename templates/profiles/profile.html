@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - SIPAG</title>
+    <style>
+        /* Base Styles & Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f2f3f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Navigation Bar */
+        .navbar {
+            background-color: #82d853;
+            height: 64px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            color: #ffffff;
+        }
+
+        .navbar .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .navbar .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+            transition: opacity 0.2s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            opacity: 0.85;
+        }
+
+        /* Main Profile Card Container */
+        .main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .profile-card {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 820px;
+            border-radius: 36px;
+            padding: 48px 60px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Card Top Content: Grid for Info and Avatar */
+        .profile-card-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        /* Left Side Content */
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .profile-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #000000;
+            margin-bottom: 12px;
+        }
+
+        .info-group {
+            font-size: 16px;
+            color: #222222;
+        }
+
+        .info-group label {
+            font-weight: 600;
+            color: #333333;
+        }
+
+        .info-group span {
+            font-weight: 400;
+            color: #555555;
+            margin-left: 4px;
+        }
+
+        /* Right Side SVG Avatar Placeholder */
+        .avatar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .avatar-svg {
+            width: 180px;
+            height: 180px;
+        }
+
+        /* Card Bottom Action Buttons Area */
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 24px;
+            background-color: #e2e5ec;
+            color: #2b303a;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 16px;
+            transition: background-color 0.2s ease;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #d1d6e1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">SIPAG</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'user_settings' %}">Settings</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Profile Content -->
+    <main class="main-container">
+        <div class="profile-card">
+            
+            <div class="profile-card-content">
+                <!-- Left Info Section -->
+                <div class="profile-info">
+                    <h1 class="profile-title">Profile</h1>
+
+                    <div class="info-group">
+                        <label>Username:</label>
+                        <span>{{ user_profile.username }}</span>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Full Name:</label>
+                        <span>
+                            {% if user_profile.get_full_name %}
+                                {{ user_profile.get_full_name }}
+                            {% else %}
+                                {{ user_profile.first_name }} {{ user_profile.last_name }}
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Barangay:</label>
+                        <span>
+                            {% if user_profile.barangay %}
+                                {{ user_profile.barangay.name }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <div class="info-group">
+                        <label>Bio:</label>
+                        <span>{{ user_profile.bio|default:"" }}</span>
+                    </div>
+                </div>
+
+                <!-- Right Side Profile Picture / Default Avatar Placeholder -->
+                <div class="avatar-container">
+                    {% if user_profile.profile_picture %}
+                        <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover;">
+                    {% else %}
+                        <!-- SVG Avatar Placeholder -->
+                        <svg class="avatar-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="50" fill="#D9DFEA"/>
+                            <circle cx="50" cy="40" r="18" fill="#8E99A8"/>
+                            <path d="M50 62C34 62 20 73 17 87C25.5 95 37 100 50 100C63 100 74.5 95 83 87C80 73 66 62 50 62Z" fill="#8E99A8"/>
+                        </svg>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Bottom Action Buttons -->
+            <div class="card-actions">
+                <a href="{% url 'dashboard' %}" class="btn">Back to Home</a>
+                <a href="{% url 'edit_profile' %}" class="btn">Edit Profile</a>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
