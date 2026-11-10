@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from apps.profiles.models import Profile
 
 
@@ -13,8 +13,13 @@ def profile_view(request):
             'bio': '',
         }
     )
+    if request.method == 'POST':
+        bio = request.POST.get('bio', '')
+        profile.bio = bio
+        profile.save()
+        return redirect('profile')
+
     return render(request, 'profiles/profile.html', {
         'user_profile': user,
         'profile': profile,
     })
-

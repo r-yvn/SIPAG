@@ -3,10 +3,17 @@ from apps.profiles.models import Profile
 from apps.user_settings.models import UserSettings
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import redirect, render
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import ensure_csrf_cookie
 from .models import Admin, Encoder, User
 
 
+@never_cache
+@ensure_csrf_cookie
 def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')

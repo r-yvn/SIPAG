@@ -3,9 +3,17 @@ from apps.profiles.models import Profile
 from apps.user_settings.models import UserSettings
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import redirect, render
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import ensure_csrf_cookie
 from .models import Admin, Encoder, User
 
+
+@never_cache
+@ensure_csrf_cookie
 def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -35,7 +43,7 @@ def register_view(request):
             first_name=first_name,
             last_name=last_name,
             contact_number=contact_number,
-            barangay=barangay_obj,  # <--- Passing the actual Barangay object, not a string
+            barangay=barangay_obj,
             type_of_user=type_of_user,
         )
 
@@ -52,8 +60,6 @@ def register_view(request):
         if type_of_user == 'admin':
             Admin.objects.create(user=user)
         elif type_of_user == 'encoder':
-            # Note: Encoders can be assigned a sitio later by the admin, 
-            # or you can assign a default sitio if required by your schema.
             pass
 
         return redirect('login')
