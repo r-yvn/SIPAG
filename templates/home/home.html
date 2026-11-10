@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,225 +11,280 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
         }
 
         body {
-            background-color: #f2f3f5;
+            background-color: #ffffff;
             min-height: 100vh;
             display: flex;
+            color: #111111;
         }
 
         /* Fixed Left Sidebar */
         .sidebar {
-            width: 260px;
-            background-color: #3f5e3a; /* Exact green from mockup */
+            width: 240px;
+            min-width: 240px;
+            background-color: #385232;
             color: #ffffff;
-            padding: 40px 25px;
+            padding: 28px 22px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
+            min-height: 100vh;
         }
 
         .sidebar-top {
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: center;
+            width: 100%;
+        }
+
+        /* Avatar with Mockup Purple Box Outline */
+        .avatar-box {
+            width: 140px;
+            height: 140px;
+            border: 1.5px solid #8e44ad;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
         }
 
         .avatar-circle {
-            width: 140px;
-            height: 140px;
-            background-color: #cad1d9; /* Gray placeholder from mockup */
+            width: 125px;
+            height: 125px;
+            background-color: #cad3de;
             border-radius: 50%;
-            margin-bottom: 25px;
         }
 
         .barangay-title {
-            font-size: 16px;
-            font-weight: 400;
+            font-size: 15px;
+            font-weight: 500;
             line-height: 1.4;
-            margin-bottom: 35px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ffffff;
         }
 
+        .barangay-title span {
+            font-weight: 400;
+        }
+
+        /* Navigation Links */
         .nav-links {
             list-style: none;
             width: 100%;
-            text-align: left;
-            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-left: 8px;
         }
 
-        .nav-links li {
-            margin-bottom: 18px;
-        }
-
-        .nav-links a {
+        .nav-links li a {
             color: #ffffff;
             text-decoration: none;
             font-size: 15px;
             font-weight: 500;
-            transition: opacity 0.2s;
+            display: inline-block;
+            transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
-        .nav-links a:hover {
-            opacity: 0.8;
+        .nav-links li a:hover {
+            opacity: 0.82;
+            transform: translateX(3px);
         }
 
         .sidebar-bottom {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
+            color: #ffffff;
+            padding-left: 8px;
             margin-top: auto;
-            text-align: left;
         }
 
-        /* Main Content Container */
+        /* Main Workspace Container */
         .main-container {
-            margin-left: 260px; /* Offset for fixed sidebar */
             flex: 1;
-            padding: 40px 60px;
+            padding: 30px 40px 30px 45px;
             display: flex;
-            gap: 40px;
+            justify-content: space-between;
+            gap: 35px;
+            background-color: #ffffff;
         }
 
-        /* Dashboard content (Welcome + Table) */
+        /* Center Content (Logo, Welcome, Table) */
         .dashboard-content {
             flex: 1;
+            max-width: 720px;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Logo Area */
+        /* SIPAG Logo */
         .logo-container {
-            margin-bottom: 40px;
+            margin-bottom: 28px;
         }
 
         .sipag-logo {
-            height: 70px; /* Adjusted to match mockup scale */
+            height: 58px;
             width: auto;
+            display: block;
         }
 
         /* Welcome & Barangay Info */
         .welcome-section {
-            margin-bottom: 50px;
+            margin-bottom: 34px;
         }
 
         .welcome-text {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             color: #000000;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
         }
 
         .barangay-info {
-            font-size: 16px;
-            color: #7d8590;
-            font-weight: 500;
+            font-size: 15px;
+            font-style: italic;
+            color: #8f98a3;
+            font-weight: 400;
         }
 
         /* Recent Records Section */
         .records-section-title {
-            font-size: 28px;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 700;
             color: #000000;
-            margin-bottom: 25px;
+            margin-bottom: 18px;
+            letter-spacing: -0.2px;
         }
 
-        /* Mockup Table Styles (Matching the provided layout) */
+        /* Table Grid strictly matching the Mockup */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
         .records-table {
             width: 100%;
             border-collapse: collapse;
-            background-color: transparent;
+            border: 1.5px solid #38b6ff;
+            background-color: #ffffff;
         }
 
-        /* Header Row (Blue line) */
+        /* Header Row (Cyan/Blue) */
         .records-table thead tr {
-            height: 36px;
-            background-color: #3b82f6; /* Blue header from image */
+            height: 34px;
+            background-color: #38b6ff;
         }
 
         .records-table th {
-            border-right: 2px solid #3b82f6; /* Matching vertical lines */
-            height: 36px;
+            height: 34px;
+            border-right: 1.5px solid #38b6ff;
+            width: 16.666%;
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 0 8px;
+            text-align: center;
         }
-        
-        /* Remove far right border on th */
+
         .records-table th:last-child {
             border-right: none;
         }
 
-        /* Body Rows (Blue rows) */
-        .records-table tbody tr.data-row {
-            height: 36px;
-            background-color: #d1e7fd; /* Light blue row from image */
-            border-bottom: 2px solid #3b82f6; /* Horizontal line from image */
-        }
-
-        /* Standardize column width and alignment */
-        .records-table th, .records-table td {
-            width: 16.66%; /* 6 equal columns matching image */
-            vertical-align: middle;
-        }
-
-        /* Add dynamic vertical blue lines in the body matching the mockup */
+        /* Body Rows: Alternating white and light blue with blue grid lines */
         .records-table td {
-            border-right: 2px solid #3b82f6;
+            height: 48px;
+            border-right: 1.5px solid #38b6ff;
+            border-bottom: 1.5px solid #38b6ff;
+            width: 16.666%;
+            vertical-align: middle;
+            text-align: center;
+            font-size: 13px;
+            color: #222222;
+            padding: 0 8px;
         }
 
-        /* Remove the far right border */
         .records-table td:last-child {
             border-right: none;
         }
 
-        /* Spacing Rows (White rows from image) */
-        .records-table tbody tr.spacer-row {
-            height: 50px;
-            background-color: #f2f3f5;
+        .records-table tbody tr.row-white {
+            background-color: #ffffff;
         }
 
-        /* Right Sidebar (Counters) */
+        .records-table tbody tr.row-blue {
+            background-color: #c4e4ff;
+        }
+
+        /* Right Stats Cards Sidebar */
         .counter-sidebar {
-            width: 280px;
+            width: 210px;
+            min-width: 210px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
         }
 
         .counter-card {
-            background-color: #3f5e3a; /* Card background green */
+            background-color: #385232;
             color: #ffffff;
-            border-radius: 20px; /* Rounded corners matching image */
-            padding: 20px 25px;
-            position: relative;
+            border-radius: 20px;
+            padding: 16px 20px;
             display: flex;
             flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            min-height: 110px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .counter-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .card-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 12px;
-            text-align: left;
-            width: 100%;
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: -0.2px;
         }
 
         .card-icon-container {
             display: flex;
-            justify-content: flex-end; /* Align icons to the right side of the card */
-            margin-top: 10px;
-            margin-right: -10px;
-            opacity: 0.9;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 2px;
         }
 
-        /* Mockup Placeholder Icons (matching the provided images) */
-        .icon-population { width: 44px; height: auto; }
-        .icon-house { width: 38px; height: auto; }
-        .icon-male { width: 28px; height: auto; }
-        .icon-female { width: 28px; height: auto; }
+        .card-icon {
+            height: 38px;
+            width: auto;
+            max-width: 52px;
+            object-fit: contain;
+            display: block;
+        }
 
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .counter-sidebar {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .counter-card {
+                flex: 1 1 calc(50% - 18px);
+                min-width: 180px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -236,16 +292,18 @@
     <!-- Fixed Left Sidebar -->
     <nav class="sidebar">
         <div class="sidebar-top">
-            <!-- User Avatar Placeholder -->
-            <div class="avatar-circle"></div>
+            <!-- User Avatar with Mockup Purple Box -->
+            <div class="avatar-box">
+                <div class="avatar-circle"></div>
+            </div>
 
             <!-- Barangay Title Placeholders -->
             <div class="barangay-title">
                 Barangay<br>
-                <span>{barangay_name}</span>
+                <span>{{ request.user.barangay.name|default:"{barangay_name}" }}</span>
             </div>
 
-            <!-- Navigation Links [cite: 3] -->
+            <!-- Navigation Links -->
             <ul class="nav-links">
                 <li><a href="{% url 'profile' %}">Profile</a></li>
                 <li><a href="{% url 'records:resident_records' %}">Resident Records</a></li>
@@ -255,59 +313,76 @@
             </ul>
         </div>
 
-        <!-- Date Placeholder [cite: 1] -->
+        <!-- Date Placeholder -->
         <div class="sidebar-bottom">
-            Date:
+            Date: <span id="current-date"></span>
         </div>
     </nav>
 
     <!-- Main Content Container -->
     <main class="main-container">
         
-        <!-- Left Dashboard Content (Welcome + Table) -->
+        <!-- Center Dashboard Content (Welcome + Table) -->
         <div class="dashboard-content">
             
-            <!-- Lime Green Logo -->
+            <!-- Lime Green SIPAG Logo -->
             <div class="logo-container">
-                <img src="https://i.imgur.com/Kz3Zp0E.png" alt="SIPAG Logo" class="sipag-logo">
+                <img src="{% static 'images/home/logo.png' %}" alt="SIPAG Logo" class="sipag-logo" onerror="this.onerror=null; this.src='https://i.imgur.com/Kz3Zp0E.png';">
             </div>
 
-            <!-- Greeting Section [cite: 1] -->
+            <!-- Greeting Section -->
             <div class="welcome-section">
-                <h1 class="welcome-text">Welcome, Encoder</h1>
-                <div class="barangay-info">Barangay ------</div>
+                <h1 class="welcome-text">Welcome, {{ request.user.type_of_user|default:"Encoder"|capfirst }}</h1>
+                <div class="barangay-info">Barangay {{ request.user.barangay.name|default:"------" }}</div>
             </div>
 
             <!-- Recent Records Section -->
             <div class="records-section">
-                <h2 class="records-section-title">Recent Records</h2>
+                <h2 class="records-section-title">Recenty Records</h2>
                 
-                <!-- Table Layout strictly matching image_7.png -->
-                <table class="records-table">
-                    <thead>
-                        <tr>
-                            <th></th><th></th><th></th><th></th><th></th><th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Spacer (White Row) -->
-                        <tr class="spacer-row">
-                            <td colspan="6"></td>
-                        </tr>
-                        <!-- Data Row (Blue Row) -->
-                        <tr class="data-row">
-                            <td></td><td></td><td></td><td></td><td></td><td></td>
-                        </tr>
-                        <!-- Spacer (White Row) -->
-                        <tr class="spacer-row">
-                            <td colspan="6"></td>
-                        </tr>
-                        <!-- Data Row (Blue Row) -->
-                        <tr class="data-row">
-                            <td></td><td></td><td></td><td></td><td></td><td></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <!-- Table Layout Matching Mockup -->
+                <div class="table-wrapper">
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if recent_records %}
+                                {% for r in recent_records %}
+                                    <tr class="{% cycle 'row-white' 'row-blue' %}">
+                                        <td>{{ r.resident_id }}</td>
+                                        <td>{{ r.first_name }}</td>
+                                        <td>{{ r.last_name }}</td>
+                                        <td>{{ r.sex|capfirst }}</td>
+                                        <td>{{ r.civil_status|capfirst }}</td>
+                                        <td>{{ r.status|capfirst }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <!-- 4 Alternating Mockup Rows -->
+                                <tr class="row-white">
+                                    <td></td><td></td><td></td><td></td><td></td><td></td>
+                                </tr>
+                                <tr class="row-blue">
+                                    <td></td><td></td><td></td><td></td><td></td><td></td>
+                                </tr>
+                                <tr class="row-white">
+                                    <td></td><td></td><td></td><td></td><td></td><td></td>
+                                </tr>
+                                <tr class="row-blue">
+                                    <td></td><td></td><td></td><td></td><td></td><td></td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -318,17 +393,15 @@
             <div class="counter-card">
                 <div class="card-title">Total Population</div>
                 <div class="card-icon-container">
-                    <!-- Placeholder Population Icon [cite: 1] -->
-                    <img src="https://i.imgur.com/R9J8XwT.png" alt="Icon Population" class="icon-population">
+                    <img src="{% static 'images/home/plogo.png' %}" alt="Total Population" class="card-icon" onerror="this.onerror=null; this.src='https://i.imgur.com/R9J8XwT.png';">
                 </div>
             </div>
 
-            <!-- Total Residents Card [cite: 1] -->
+            <!-- Total Residents Card -->
             <div class="counter-card">
                 <div class="card-title">Total Residents</div>
                 <div class="card-icon-container">
-                    <!-- Placeholder House Icon [cite: 1] -->
-                    <img src="https://i.imgur.com/nUoG5eA.png" alt="Icon Household" class="icon-house">
+                    <img src="{% static 'images/home/rrlogo.png' %}" alt="Total Residents" class="card-icon" onerror="this.onerror=null; this.src='https://i.imgur.com/nUoG5eA.png';">
                 </div>
             </div>
 
@@ -336,23 +409,31 @@
             <div class="counter-card">
                 <div class="card-title">Total Male</div>
                 <div class="card-icon-container">
-                    <!-- Placeholder Male Icon [cite: 1] -->
-                    <img src="https://i.imgur.com/ZzK8Y3E.png" alt="Icon Male" class="icon-male">
+                    <img src="{% static 'images/home/mlogo.png' %}" alt="Total Male" class="card-icon" onerror="this.onerror=null; this.src='https://i.imgur.com/ZzK8Y3E.png';">
                 </div>
             </div>
 
-            <!-- Total Female Card [cite: 1] -->
+            <!-- Total Female Card -->
             <div class="counter-card">
                 <div class="card-title">Total Female</div>
                 <div class="card-icon-container">
-                    <!-- Placeholder Female Icon [cite: 1] -->
-                    <img src="https://i.imgur.com/b9L5tCj.png" alt="Icon Female" class="icon-female">
+                    <img src="{% static 'images/home/flogo.png' %}" alt="Total Female" class="card-icon" onerror="this.onerror=null; this.src='https://i.imgur.com/b9L5tCj.png';">
                 </div>
             </div>
 
         </aside>
 
     </main>
+
+    <script>
+        // Set dynamic date matching mockup format
+        const dateElem = document.getElementById('current-date');
+        if (dateElem) {
+            const today = new Date();
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            dateElem.textContent = today.toLocaleDateString('en-US', options);
+        }
+    </script>
 
 </body>
 </html>

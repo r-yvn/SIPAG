@@ -88,11 +88,15 @@ DATABASES = {
         'USER': 'postgres.dvsmotnioiejaoecqzzl',
         'PASSWORD': 'test1209rheyvene',
         'HOST': 'aws-0-ap-south-1.pooler.supabase.com',
-        'PORT': ' 5432',
+        'PORT': '5432',
     }
 }
 
 AUTH_USER_MODEL = 'register.User'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'login'
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators

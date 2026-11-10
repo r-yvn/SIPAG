@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from apps.core.models import Barangay, Sitio
 
+
 class User(AbstractUser):
-    TYPES = [('admin', 'Admin'),('encoder', 'Encoder')]
+    TYPES = [('admin', 'Admin'), ('encoder', 'Encoder')]
 
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE, related_name='users', db_column='barangay_id', null=True, blank=True)
     type_of_user = models.CharField(max_length=20, choices=TYPES)
@@ -26,8 +27,9 @@ class Admin(models.Model):
         db_table = 'admin'
 
     def __str__(self):
-        return self
-    
+        return f"Admin: {self.user.username}"
+
+
 class Encoder(models.Model):
     encoder_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='encoders', db_column='user_id')
@@ -37,5 +39,4 @@ class Encoder(models.Model):
         db_table = 'encoder'
 
     def __str__(self):
-            return self    
-        
+        return f"Encoder: {self.user.username}"

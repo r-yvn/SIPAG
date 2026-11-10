@@ -26,7 +26,7 @@ class Admin(models.Model):
         db_table = 'admin'
 
     def __str__(self):
-        return self
+        return f"Admin: {self.user.username}"
     
 class Encoder(models.Model):
     encoder_id = models.AutoField(primary_key=True)
@@ -37,5 +37,5 @@ class Encoder(models.Model):
         db_table = 'encoder'
 
     def __str__(self):
-            return self    
+        return f"Encoder: {self.user.username}"    
         

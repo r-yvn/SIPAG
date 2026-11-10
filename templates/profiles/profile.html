@@ -14,68 +14,119 @@
         }
 
         body {
-            background-color: #f2f3f5;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            position: relative;
+            background-color: #2b3a2a;
         }
 
-        /* Header Navigation Bar */
-        .navbar {
-            background-color: #82d853;
-            height: 64px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 40px;
+        /* Background Aerial Photo with Dark Overlay */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 260px;
+            width: calc(100% - 260px);
+            height: 100vh;
+            /* Replace with your background image path or URL */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://i.imgur.com/8f5Y4eF.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        /* Fixed Left Sidebar (Matching Home Dashboard style) */
+        .sidebar {
+            width: 260px;
+            background-color: #3f5e3a;
             color: #ffffff;
-        }
-
-        .navbar .logo {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
-
-        .navbar .nav-links {
+            padding: 40px 25px;
             display: flex;
-            gap: 30px;
-            list-style: none;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 2;
         }
 
-        .navbar .nav-links a {
+        .sidebar-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .avatar-circle {
+            width: 140px;
+            height: 140px;
+            background-color: #cad1d9;
+            border-radius: 50%;
+            margin-bottom: 25px;
+        }
+
+        .barangay-title {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.4;
+            margin-bottom: 35px;
+        }
+
+        .nav-links {
+            list-style: none;
+            width: 100%;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .nav-links li {
+            margin-bottom: 18px;
+        }
+
+        .nav-links a {
             color: #ffffff;
             text-decoration: none;
-            font-size: 18px;
-            font-weight: 700;
-            transition: opacity 0.2s ease;
+            font-size: 15px;
+            font-weight: 500;
+            transition: opacity 0.2s;
         }
 
-        .navbar .nav-links a:hover {
-            opacity: 0.85;
+        .nav-links a:hover {
+            opacity: 0.8;
         }
 
-        /* Main Profile Card Container */
+        .sidebar-bottom {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: auto;
+            text-align: left;
+        }
+
+        /* Main Profile Container */
         .main-container {
+            margin-left: 260px;
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding: 40px;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
         }
 
+        /* White Rounded Profile Card */
         .profile-card {
             background-color: #ffffff;
             width: 100%;
-            max-width: 820px;
+            max-width: 780px;
             border-radius: 36px;
-            padding: 48px 60px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            padding: 45px 55px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
         }
 
-        /* Card Top Content: Grid for Info and Avatar */
         .profile-card-content {
             display: flex;
             justify-content: space-between;
@@ -83,28 +134,29 @@
             width: 100%;
         }
 
-        /* Left Side Content */
+        /* Left Side Info Section */
         .profile-info {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
+            flex: 1;
         }
 
         .profile-title {
             font-size: 32px;
             font-weight: 800;
             color: #000000;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .info-group {
-            font-size: 16px;
+            font-size: 15px;
             color: #222222;
         }
 
         .info-group label {
             font-weight: 600;
-            color: #333333;
+            color: #222222;
         }
 
         .info-group span {
@@ -113,17 +165,57 @@
             margin-left: 4px;
         }
 
-        /* Right Side SVG Avatar Placeholder */
-        .avatar-container {
+        /* Bio Textarea / Box */
+        .bio-group {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .bio-group label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #222222;
+        }
+
+        .bio-box {
+            background-color: #e5e9f0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            min-height: 80px;
+            border: none;
+            resize: none;
+            font-size: 14px;
+            color: #333333;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        /* Right Side Avatar & Edit Picture Link */
+        .right-section {
+            display: flex;
+            flex-direction: column;
             align-items: center;
+            gap: 10px;
             margin-top: 10px;
         }
 
         .avatar-svg {
-            width: 180px;
-            height: 180px;
+            width: 150px;
+            height: 150px;
+        }
+
+        .edit-pic-link {
+            font-size: 11px;
+            color: #4b5563;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .edit-pic-link:hover {
+            color: #000000;
         }
 
         /* Card Bottom Action Buttons Area */
@@ -131,7 +223,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 40px;
+            margin-top: 35px;
             width: 100%;
         }
 
@@ -144,6 +236,8 @@
             font-size: 13px;
             font-weight: 700;
             border-radius: 16px;
+            border: none;
+            cursor: pointer;
             transition: background-color 0.2s ease;
             text-align: center;
         }
@@ -155,21 +249,45 @@
 </head>
 <body>
 
-    <!-- Header Navigation Bar -->
-    <header class="navbar">
-        <div class="logo">SIPAG</div>
-        <nav>
+    <!-- Background Image Overlay Layer -->
+    <div class="bg-overlay"></div>
+
+    <!-- Fixed Left Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-top">
+            <!-- User Avatar Placeholder -->
+            <div class="avatar-circle">
+                {% if user_profile.profile_picture %}
+                    <img src="{{ user_profile.profile_picture.url }}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                {% endif %}
+            </div>
+
+            <!-- Barangay Title Placeholder -->
+            <div class="barangay-title">
+                Barangay<br>
+                <span>{{ user_profile.barangay.name|default:"{barangay_name}" }}</span>
+            </div>
+
+            <!-- Navigation Links -->
             <ul class="nav-links">
                 <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'records:resident_records' %}">Resident Records</a></li>
+                <li><a href="{% url 'records:household_records' %}">Household Records</a></li>
                 <li><a href="{% url 'user_settings' %}">Settings</a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
             </ul>
-        </nav>
-    </header>
+        </div>
+
+        <!-- Date Placeholder -->
+        <div class="sidebar-bottom">
+            Date:
+        </div>
+    </nav>
 
     <!-- Main Profile Content -->
     <main class="main-container">
-        <div class="profile-card">
+        <form method="POST" class="profile-card">
+            {% csrf_token %}
             
             <div class="profile-card-content">
                 <!-- Left Info Section -->
@@ -194,43 +312,40 @@
 
                     <div class="info-group">
                         <label>Barangay:</label>
-                        <span>
-                            {% if user_profile.barangay %}
-                                {{ user_profile.barangay.name }}
-                            {% else %}
-                                N/A
-                            {% endif %}
-                        </span>
+                        <span>{{ user_profile.barangay.name|default:"-insert-" }}</span>
                     </div>
 
-                    <div class="info-group">
+                    <div class="bio-group">
                         <label>Bio:</label>
-                        <span>{{ user_profile.bio|default:"" }}</span>
+                        <!-- Change to textarea if editable, or use a div/span if static display -->
+                        <textarea name="bio" class="bio-box">{{ user_profile.bio|default:"" }}</textarea>
                     </div>
                 </div>
 
-                <!-- Right Side Profile Picture / Default Avatar Placeholder -->
-                <div class="avatar-container">
-                    {% if user_profile.profile_picture %}
-                        <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover;">
-                    {% else %}
-                        <!-- SVG Avatar Placeholder -->
-                        <svg class="avatar-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="50" cy="50" r="50" fill="#D9DFEA"/>
-                            <circle cx="50" cy="40" r="18" fill="#8E99A8"/>
-                            <path d="M50 62C34 62 20 73 17 87C25.5 95 37 100 50 100C63 100 74.5 95 83 87C80 73 66 62 50 62Z" fill="#8E99A8"/>
-                        </svg>
-                    {% endif %}
+                <!-- Right Side Profile Picture & Edit Link -->
+                <div class="right-section">
+                    <div class="avatar-container">
+                        {% if user_profile.profile_picture %}
+                            <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+                        {% else %}
+                            <svg class="avatar-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="50" fill="#D9DFEA"/>
+                                <circle cx="50" cy="40" r="18" fill="#8E99A8"/>
+                                <path d="M50 62C34 62 20 73 17 87C25.5 95 37 100 50 100C63 100 74.5 95 83 87C80 73 66 62 50 62Z" fill="#8E99A8"/>
+                            </svg>
+                        {% endif %}
+                    </div>
+                    <a href="#" class="edit-pic-link">Edit Profile Picture</a>
                 </div>
             </div>
 
             <!-- Bottom Action Buttons -->
             <div class="card-actions">
                 <a href="{% url 'dashboard' %}" class="btn">Back to Home</a>
-                <a href="{% url 'edit_profile' %}" class="btn">Edit Profile</a>
+                <button type="submit" class="btn">Save Changes</button>
             </div>
 
-        </div>
+        </form>
     </main>
 
 </body>

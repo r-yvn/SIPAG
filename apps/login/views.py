@@ -1,6 +1,7 @@
-from django.contrib.auth import authenticate, login as auth_login
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, get_user_model, login as auth_login, logout as auth_logout
 from django.shortcuts import redirect, render
+
+User = get_user_model()
 
 
 def login_view(request):
@@ -9,7 +10,7 @@ def login_view(request):
         password = request.POST.get('password')
         
         if not User.objects.filter(username=username).exists():
-            return render(request, 'accounts/login.html', {
+            return render(request, 'login/login.html', {
                 'error_message': 'User does not exist. Please register an account first.'
             })
 
@@ -24,3 +25,8 @@ def login_view(request):
             })
 
     return render(request, 'login/login.html')
+
+
+def logout_view(request):
+    auth_logout(request)
+    return redirect('login')
