@@ -3,27 +3,356 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Dashboard - SIPAG</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; }
-        header { background-color: #52d94c; color: #fff; padding: 1rem; text-align: center; }
-        nav { display: flex; justify-content: center; background-color: #1ba2f6; }
-        nav a { color: white; padding: 14px 20px; text-decoration: none; text-align: center; }
-        nav a:hover { background-color: #ddd; color: black; }
+        /* Base Styles & Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f2f3f5;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Fixed Left Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: #3f5e3a; /* Exact green from mockup */
+            color: #ffffff;
+            padding: 40px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .avatar-circle {
+            width: 140px;
+            height: 140px;
+            background-color: #cad1d9; /* Gray placeholder from mockup */
+            border-radius: 50%;
+            margin-bottom: 25px;
+        }
+
+        .barangay-title {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.4;
+            margin-bottom: 35px;
+        }
+
+        .nav-links {
+            list-style: none;
+            width: 100%;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .nav-links li {
+            margin-bottom: 18px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .sidebar-bottom {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: auto;
+            text-align: left;
+        }
+
+        /* Main Content Container */
+        .main-container {
+            margin-left: 260px; /* Offset for fixed sidebar */
+            flex: 1;
+            padding: 40px 60px;
+            display: flex;
+            gap: 40px;
+        }
+
+        /* Dashboard content (Welcome + Table) */
+        .dashboard-content {
+            flex: 1;
+        }
+
+        /* Logo Area */
+        .logo-container {
+            margin-bottom: 40px;
+        }
+
+        .sipag-logo {
+            height: 70px; /* Adjusted to match mockup scale */
+            width: auto;
+        }
+
+        /* Welcome & Barangay Info */
+        .welcome-section {
+            margin-bottom: 50px;
+        }
+
+        .welcome-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 6px;
+        }
+
+        .barangay-info {
+            font-size: 16px;
+            color: #7d8590;
+            font-weight: 500;
+        }
+
+        /* Recent Records Section */
+        .records-section-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 25px;
+        }
+
+        /* Mockup Table Styles (Matching the provided layout) */
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: transparent;
+        }
+
+        /* Header Row (Blue line) */
+        .records-table thead tr {
+            height: 36px;
+            background-color: #3b82f6; /* Blue header from image */
+        }
+
+        .records-table th {
+            border-right: 2px solid #3b82f6; /* Matching vertical lines */
+            height: 36px;
+        }
         
+        /* Remove far right border on th */
+        .records-table th:last-child {
+            border-right: none;
+        }
+
+        /* Body Rows (Blue rows) */
+        .records-table tbody tr.data-row {
+            height: 36px;
+            background-color: #d1e7fd; /* Light blue row from image */
+            border-bottom: 2px solid #3b82f6; /* Horizontal line from image */
+        }
+
+        /* Standardize column width and alignment */
+        .records-table th, .records-table td {
+            width: 16.66%; /* 6 equal columns matching image */
+            vertical-align: middle;
+        }
+
+        /* Add dynamic vertical blue lines in the body matching the mockup */
+        .records-table td {
+            border-right: 2px solid #3b82f6;
+        }
+
+        /* Remove the far right border */
+        .records-table td:last-child {
+            border-right: none;
+        }
+
+        /* Spacing Rows (White rows from image) */
+        .records-table tbody tr.spacer-row {
+            height: 50px;
+            background-color: #f2f3f5;
+        }
+
+        /* Right Sidebar (Counters) */
+        .counter-sidebar {
+            width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .counter-card {
+            background-color: #3f5e3a; /* Card background green */
+            color: #ffffff;
+            border-radius: 20px; /* Rounded corners matching image */
+            padding: 20px 25px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 12px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .card-icon-container {
+            display: flex;
+            justify-content: flex-end; /* Align icons to the right side of the card */
+            margin-top: 10px;
+            margin-right: -10px;
+            opacity: 0.9;
+        }
+
+        /* Mockup Placeholder Icons (matching the provided images) */
+        .icon-population { width: 44px; height: auto; }
+        .icon-house { width: 38px; height: auto; }
+        .icon-male { width: 28px; height: auto; }
+        .icon-female { width: 28px; height: auto; }
+
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Welcome, {{user.username}}!</h1>
-    </header>
+    <!-- Fixed Left Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-top">
+            <!-- User Avatar Placeholder -->
+            <div class="avatar-circle"></div>
 
-    <nav>
-        <a href="{% url 'profile' %}">Profile</a>
-        <a href="{% url 'user_settings' %}">Settings</a>
-        <a href="{% url 'login' %}">Logout</a>
+            <!-- Barangay Title Placeholders -->
+            <div class="barangay-title">
+                Barangay<br>
+                <span>{barangay_name}</span>
+            </div>
+
+            <!-- Navigation Links [cite: 3] -->
+            <ul class="nav-links">
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'records:resident_records' %}">Resident Records</a></li>
+                <li><a href="{% url 'records:household_records' %}">Household Records</a></li>
+                <li><a href="{% url 'user_settings' %}">Settings</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Date Placeholder [cite: 1] -->
+        <div class="sidebar-bottom">
+            Date:
+        </div>
     </nav>
+
+    <!-- Main Content Container -->
+    <main class="main-container">
+        
+        <!-- Left Dashboard Content (Welcome + Table) -->
+        <div class="dashboard-content">
+            
+            <!-- Lime Green Logo -->
+            <div class="logo-container">
+                <img src="https://i.imgur.com/Kz3Zp0E.png" alt="SIPAG Logo" class="sipag-logo">
+            </div>
+
+            <!-- Greeting Section [cite: 1] -->
+            <div class="welcome-section">
+                <h1 class="welcome-text">Welcome, Encoder</h1>
+                <div class="barangay-info">Barangay ------</div>
+            </div>
+
+            <!-- Recent Records Section -->
+            <div class="records-section">
+                <h2 class="records-section-title">Recent Records</h2>
+                
+                <!-- Table Layout strictly matching image_7.png -->
+                <table class="records-table">
+                    <thead>
+                        <tr>
+                            <th></th><th></th><th></th><th></th><th></th><th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Spacer (White Row) -->
+                        <tr class="spacer-row">
+                            <td colspan="6"></td>
+                        </tr>
+                        <!-- Data Row (Blue Row) -->
+                        <tr class="data-row">
+                            <td></td><td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        <!-- Spacer (White Row) -->
+                        <tr class="spacer-row">
+                            <td colspan="6"></td>
+                        </tr>
+                        <!-- Data Row (Blue Row) -->
+                        <tr class="data-row">
+                            <td></td><td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Right Counter Sidebar -->
+        <aside class="counter-sidebar">
+            
+            <!-- Total Population Card -->
+            <div class="counter-card">
+                <div class="card-title">Total Population</div>
+                <div class="card-icon-container">
+                    <!-- Placeholder Population Icon [cite: 1] -->
+                    <img src="https://i.imgur.com/R9J8XwT.png" alt="Icon Population" class="icon-population">
+                </div>
+            </div>
+
+            <!-- Total Residents Card [cite: 1] -->
+            <div class="counter-card">
+                <div class="card-title">Total Residents</div>
+                <div class="card-icon-container">
+                    <!-- Placeholder House Icon [cite: 1] -->
+                    <img src="https://i.imgur.com/nUoG5eA.png" alt="Icon Household" class="icon-house">
+                </div>
+            </div>
+
+            <!-- Total Male Card -->
+            <div class="counter-card">
+                <div class="card-title">Total Male</div>
+                <div class="card-icon-container">
+                    <!-- Placeholder Male Icon [cite: 1] -->
+                    <img src="https://i.imgur.com/ZzK8Y3E.png" alt="Icon Male" class="icon-male">
+                </div>
+            </div>
+
+            <!-- Total Female Card [cite: 1] -->
+            <div class="counter-card">
+                <div class="card-title">Total Female</div>
+                <div class="card-icon-container">
+                    <!-- Placeholder Female Icon [cite: 1] -->
+                    <img src="https://i.imgur.com/b9L5tCj.png" alt="Icon Female" class="icon-female">
+                </div>
+            </div>
+
+        </aside>
+
+    </main>
 
 </body>
 </html>
