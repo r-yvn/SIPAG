@@ -92,7 +92,7 @@
         .pill-input:focus {
             background-color: #ffffff;
             border-color: #52d94c;
-            box-shadow: 0 0 8px rgba(128, 0, 0, 0.25);
+            box-shadow: 0 0 8px rgba(82, 217, 76, 0.25);
         }
 
         .btn-pill-maroon {
@@ -108,7 +108,7 @@
         }
 
         .btn-pill-maroon:hover {
-            background-color:#52d94c;
+            background-color: #43c13e;
         }
 
         .btn-pill-maroon:active {
@@ -173,7 +173,7 @@
             {% endif %}
             {% if messages %}
                 {% for message in messages %}
-                    <p class="error-msg">{{ message }}</p>
+                    <p class="error-msg" style="color: {% if message.tags == 'success' %}#2e7d32{% else %}#e74c3c{% endif %};">{{ message }}</p>
                 {% endfor %}
             {% endif %}
 

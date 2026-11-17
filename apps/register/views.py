@@ -1,6 +1,7 @@
 from apps.core.models import Barangay
 from apps.profiles.models import Profile
 from apps.user_settings.models import UserSettings
+from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import never_cache
@@ -33,7 +34,7 @@ def register_view(request):
         if barangay:
             barangay_obj, created = Barangay.objects.get_or_create(
                 name=barangay.strip(),
-                defaults={'city': '', 'province': ''}
+                defaults={'city': 'Cebu City', 'province': 'Cebu'}
             )
 
         # 2. Create the custom User with all fields populated properly
@@ -62,6 +63,7 @@ def register_view(request):
         elif type_of_user == 'encoder':
             pass
 
+        messages.success(request, 'Account registered successfully! Please log in.')
         return redirect('login')
 
     return render(request, 'register/register.html')

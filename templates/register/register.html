@@ -147,6 +147,11 @@
             {% if error_message %}
                 <p class="error-msg">{{ error_message }}</p>
             {% endif %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="error-msg">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
 
             <form method="POST" action="{% url 'register' %}">
                 {% csrf_token %}
