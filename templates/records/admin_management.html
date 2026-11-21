@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management - SIPAG</title>
+    <!-- Google Fonts: Montserrat & Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600..900;1,600..900&family=Poppins:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #faf9f5;
+            min-height: 100vh;
+            display: flex;
+            color: #184f59;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            width: 260px;
+            min-width: 260px;
+            background-color: #184f59;
+            color: #ffffff;
+            padding: 40px 0 35px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 0 32px 36px 32px;
+        }
+
+        .welcome-label {
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 4px;
+        }
+
+        .user-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.2;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
+        }
+
+        .user-role {
+            font-size: 1rem;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.82);
+            font-weight: 400;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .nav-item {
+            width: 100%;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 32px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.15s ease, padding-left 0.15s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(0, 0, 0, 0.12);
+            padding-left: 36px;
+        }
+
+        .nav-link.active {
+            background-color: rgba(0, 0, 0, 0.22);
+            font-weight: 700;
+        }
+
+        .nav-icon {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .sidebar-bottom {
+            padding: 0 32px;
+        }
+
+        .logout-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.98rem;
+            font-weight: 600;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .logout-link:hover {
+            opacity: 0.85;
+            transform: translateX(3px);
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 35px 50px 45px 50px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-header {
+            margin-bottom: 25px;
+        }
+
+        .brand-logo {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .page-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: #184f59;
+            margin-bottom: 20px;
+            letter-spacing: -0.3px;
+        }
+
+        .content-card {
+            background-color: #ffffff;
+            border-radius: 14px;
+            padding: 30px;
+            border: 1.5px solid #184f59;
+            box-shadow: 0 4px 15px rgba(24, 79, 89, 0.08);
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-header">
+                <p class="welcome-label">Welcome,</p>
+                <h2 class="user-name">{{ request.user.first_name|default:request.user.username }} {{ request.user.last_name }}</h2>
+                <p class="user-role">{% if request.user.type_of_user %}{{ request.user.type_of_user|title }}{% else %}Admin{% endif %}</p>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'home' %}" class="nav-link">
+                            <img src="{% static 'images/core/dashboard_logo.png' %}" alt="Dashboard" class="nav-icon">
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'records:admin_management' %}" class="nav-link active">
+                            <img src="{% static 'images/core/management_logo.png' %}" alt="Management" class="nav-icon">
+                            <span>Management</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'records:resident_records' %}" class="nav-link">
+                            <img src="{% static 'images/core/resident_records_logo.png' %}" alt="Resident Records" class="nav-icon">
+                            <span>Resident Records</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'records:household_records' %}" class="nav-link">
+                            <img src="{% static 'images/core/household_records_logo.png' %}" alt="Household Records" class="nav-icon">
+                            <span>Household Records</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'user_settings' %}" class="nav-link">
+                            <img src="{% static 'images/core/settings_logo.png' %}" alt="Settings" class="nav-icon">
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="sidebar-bottom">
+            <a href="{% url 'logout' %}" class="logout-link">
+                <img src="{% static 'images/core/logout_logo.png' %}" alt="Logout" class="nav-icon">
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <img src="{% static 'images/core/app_logo.png' %}" alt="SIPAG Logo" class="brand-logo">
+        </header>
+
+        <h1 class="page-title">Management</h1>
+
+        <div class="content-card">
+            <p>Admin user management and system controls.</p>
+        </div>
+    </main>
+</body>
+</html>

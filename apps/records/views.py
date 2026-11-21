@@ -3,10 +3,15 @@ from django.shortcuts import render
 
 
 @login_required
+def admin_management_view(request):
+    return render(request, 'records/admin_management.html')
+
+
+@login_required
 def resident_records_view(request):
-    return render(request, 'home/home.html')
+    return render(request, 'records/resident_records.html')
 
 
 @login_required
 def household_records_view(request):
-    return render(request, 'home/home.html')
+    return render(request, 'records/household_records.html')
