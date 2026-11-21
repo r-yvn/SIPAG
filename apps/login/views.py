@@ -14,15 +14,20 @@ def login_view(request):
         return redirect('home')
 
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        if not User.objects.filter(username=username).exists():
+        login_id = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
+
+        # Check if user exists by username or email
+        user_obj = User.objects.filter(username=login_id).first()
+        if not user_obj and '@' in login_id:
+            user_obj = User.objects.filter(email=login_id).first()
+
+        if not user_obj:
             return render(request, 'login/login.html', {
                 'error_message': 'User does not exist. Please register an account first.'
             })
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=user_obj.username, password=password)
 
         if user is not None:
             auth_login(request, user)

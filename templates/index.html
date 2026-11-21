@@ -4,103 +4,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIPAG - Welcome</title>
+    <title>SIPAG - System for Information Profiling and Administrative Governance</title>
     <style>
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Segoe UI', Arial, sans-serif; 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         html, body {
             width: 100%;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-            overflow: hidden; 
-            background-color: #f4f4f4;
+            height: 100%;
+            overflow-x: hidden;
+            background-color: #ffffff;
         }
 
-        .text-green { color: #52d94c; }
-        .text-blue { color: #1ba2f6; }
-
-        .hero-section {
+        .landing-container {
+            display: flex;
             width: 100vw;
-            height: 100vh;
-            margin: 0; 
-            background-image: url("{% static 'images/landing/background.png' %}");
+            min-height: 100vh;
+        }
+
+        /* Left Side (Dark Image Background) */
+        .landing-left {
+            flex: 1.15;
+            position: relative;
+            background: linear-gradient(rgba(18, 38, 44, 0.72), rgba(18, 38, 44, 0.72)), url("{% static 'images/register/register_background.png' %}");
             background-size: cover;
             background-position: center;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 80px;
+            color: #ffffff;
+        }
+
+        .landing-quote {
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.35;
+            text-align: center;
+            margin-bottom: 32px;
+            letter-spacing: -0.3px;
+        }
+
+        .landing-desc {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            text-align: justify;
+            margin-bottom: 50px;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .landing-badges {
+            display: flex;
+            justify-content: center;
             align-items: center;
-            padding: 0 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            gap: 45px;
+            flex-wrap: wrap;
         }
 
-        .hero-content { 
-            color: #ffffff; 
-            max-width: 650px;
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #ffffff;
         }
 
-        .hero-title { 
-            font-size: 2.5rem;
-            font-weight: 800; 
-            line-height: 1.25; 
-            margin-bottom: 16px; 
+        .badge-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
         }
 
-        .hero-tagline { 
-            font-size: 1.15rem;
-            margin-bottom: 28px; 
-            opacity: 0.95; 
+        /* Right Side (Clean White Panel) */
+        .landing-right {
+            flex: 0.85;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 50px;
         }
 
-        .btn-pill-green {
-            background-color: #52d94c; 
-            color: #ffffff; 
-            border: none;
-            padding: 12px 36px; 
-            border-radius: 24px; 
-            font-weight: 600;
-            font-size: 1rem; 
-            text-decoration: none; 
-            display: inline-block;
-            transition: transform 0.2s ease, background-color 0.2s ease;
+        .auth-panel {
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .btn-pill-blue {
-            background-color: #1ba2f6; 
-            color: #ffffff; 
-            border: none;
-            padding: 12px 36px;
-            border-radius: 24px; 
-            font-weight: 600;
-            font-size: 1rem; 
-            text-decoration: none; 
-            display: inline-block; 
-            margin-left: 14px;
-            transition: transform 0.2s ease, background-color 0.2s ease;
+        /* Top Government Logos */
+        .gov-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 22px;
+            margin-bottom: 45px;
         }
 
-        .btn-pill-green:hover, .btn-pill-blue:hover {
+        .gov-logo {
+            height: 72px;
+            width: auto;
+            max-width: 80px;
+            object-fit: contain;
+            transition: transform 0.2s ease;
+        }
+
+        .gov-logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Main App Logo */
+        .app-logo-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 48px;
+            width: 100%;
+        }
+
+        .app-logo {
+            width: 100%;
+            max-width: 330px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .app-tagline {
+            font-size: 0.82rem;
+            font-style: italic;
+            color: #777777;
+            margin-top: 10px;
+            letter-spacing: -0.2px;
+        }
+
+        /* Action Buttons */
+        .landing-actions {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .btn-action {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 52px;
+            border-radius: 12px;
+            font-size: 1.12rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #ffffff;
+            transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-green {
+            background-color: #82d836;
+        }
+
+        .btn-green:hover {
+            background-color: #75c62e;
             transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(130, 216, 54, 0.35);
+        }
+
+        .btn-teal {
+            background-color: #1a515c;
+        }
+
+        .btn-teal:hover {
+            background-color: #143e47;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(26, 81, 92, 0.35);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 960px) {
+            .landing-container {
+                flex-direction: column;
+            }
+            .landing-left {
+                padding: 50px 30px;
+            }
+            .landing-quote {
+                font-size: 1.7rem;
+            }
+            .landing-badges {
+                gap: 25px;
+            }
+            .badge-item {
+                font-size: 1.2rem;
+            }
+            .landing-right {
+                padding: 50px 24px;
+            }
         }
     </style>
 </head>
 <body>
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                System for <span class="text-green">Information Profiling</span><br>
-                and <span class="text-green">Administrative Governance</span>
-            </h1>
-            <p class="hero-tagline">SIPAG: Service that is Constant, Reliable, Accurate, and Transparent</p>
-            <div>
-                <a href="{% url 'login' %}" class="btn-pill-green">Login</a>
-                <a href="{% url 'register' %}" class="btn-pill-blue">Register</a>
+
+    <main class="landing-container">
+        <!-- Left Banner Side -->
+        <section class="landing-left">
+            <h1 class="landing-quote">"Service that is constant, reliable, accurate, and transparent."</h1>
+            
+            <p class="landing-desc">
+                System for Information Profiling and Administrative Governance (SIPAG) is a localized information management web portal designed for Barangay Local Government Units (LGUs) in the Philippines that centralizes household and resident profiling data into an organized digital database to streamline local administration. The system accelerates service delivery, improves accuracy in household tracking, and simplifies resource distribution.
+            </p>
+
+            <div class="landing-badges">
+                <div class="badge-item">
+                    <img src="{% static 'images/landing/check_mark_logo.png' %}" alt="Checkmark" class="badge-icon">
+                    <span>Secure</span>
+                </div>
+                <div class="badge-item">
+                    <img src="{% static 'images/landing/check_mark_logo.png' %}" alt="Checkmark" class="badge-icon">
+                    <span>Trusted</span>
+                </div>
+                <div class="badge-item">
+                    <img src="{% static 'images/landing/check_mark_logo.png' %}" alt="Checkmark" class="badge-icon">
+                    <span>Timely</span>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Right Action Side -->
+        <section class="landing-right">
+            <div class="auth-panel">
+                <!-- Government Logos Row -->
+                <div class="gov-logos">
+                    <img src="{% static 'images/landing/republikaPH_logo.png' %}" alt="Republika ng Pilipinas" class="gov-logo">
+                    <img src="{% static 'images/landing/cebuPH_logo.png' %}" alt="City of Cebu Seal" class="gov-logo">
+                    <img src="{% static 'images/landing/psaPH_logo.png' %}" alt="Philippine Statistics Authority" class="gov-logo">
+                </div>
+
+                <!-- SIPAG App Logo -->
+                <div class="app-logo-wrap">
+                    <img src="{% static 'images/core/app_logo.png' %}" alt="SIPAG Logo" class="app-logo">
+                    <p class="app-tagline">System for Information Profiling and Administrative Governance</p>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="landing-actions">
+                    <a href="{% url 'login' %}" class="btn-action btn-green">Login</a>
+                    <a href="{% url 'register' %}" class="btn-action btn-teal">Create an Account</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
 </body>
 </html>
