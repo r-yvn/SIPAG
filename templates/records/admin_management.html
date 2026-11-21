@@ -25,6 +25,7 @@
             overflow-x: hidden;
         }
 
+        /* Fixed Left Sidebar */
         .sidebar {
             width: 260px;
             min-width: 260px;
@@ -130,6 +131,7 @@
             transform: translateX(3px);
         }
 
+        /* Main Workspace Container */
         .main-content {
             margin-left: 260px;
             flex: 1;
@@ -148,25 +150,178 @@
             object-fit: contain;
         }
 
-        .page-title {
+        /* Section Titles */
+        .section-title {
             font-family: 'Montserrat', sans-serif;
             font-size: 1.65rem;
             font-weight: 800;
             color: #184f59;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             letter-spacing: -0.3px;
         }
 
-        .content-card {
+        .section-title.second-section {
+            margin-top: 36px;
+        }
+
+        /* Table Card Wrappers */
+        .table-wrap {
+            width: 100%;
             background-color: #ffffff;
-            border-radius: 14px;
-            padding: 30px;
-            border: 1.5px solid #184f59;
+            border-radius: 12px;
+            overflow: hidden;
             box-shadow: 0 4px 15px rgba(24, 79, 89, 0.08);
+            border: 1.5px solid #184f59;
+        }
+
+        .mgmt-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .mgmt-table th {
+            background-color: #184f59;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 700;
+            padding: 14px 16px;
+            border-right: 1.5px solid rgba(255, 255, 255, 0.2);
+            letter-spacing: -0.2px;
+        }
+
+        .mgmt-table th:last-child {
+            border-right: none;
+        }
+
+        .mgmt-table td {
+            height: 48px;
+            padding: 8px 14px;
+            font-size: 0.9rem;
+            color: #222222;
+            border-right: 1px solid #d9e3e7;
+            border-bottom: 1px solid #d9e3e7;
+            background-color: #ffffff;
+        }
+
+        .mgmt-table td:last-child {
+            border-right: none;
+        }
+
+        .mgmt-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .mgmt-table tbody tr:hover td {
+            background-color: #f7fafc;
+        }
+
+        /* Action Buttons */
+        .table-actions {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-pill-green {
+            background-color: #82d134;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 6px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .btn-pill-green:hover {
+            background-color: #72bd2c;
+            transform: translateY(-1px);
+        }
+
+        .btn-pill-teal {
+            background-color: #184f59;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 6px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .btn-pill-teal:hover {
+            background-color: #123d45;
+            transform: translateY(-1px);
+        }
+
+        /* Status Tag */
+        .status-badge {
+            color: #184f59;
+            font-weight: 600;
+        }
+
+        /* Messages */
+        .messages-container {
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background-color: #eaf8dd;
+            color: #2e6616;
+            border: 1px solid #c4ebb0;
+        }
+
+        .alert-warning, .alert-error {
+            background-color: #fde8e8;
+            color: #9b1c1c;
+            border: 1px solid #f8b4b4;
+        }
+
+        .alert-info {
+            background-color: #e8f4f8;
+            color: #184f59;
+            border: 1px solid #b3d7e2;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+                height: auto;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            .table-wrap {
+                overflow-x: auto;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- Fixed Left Sidebar (Admin only) -->
     <aside class="sidebar">
         <div>
             <div class="sidebar-header">
@@ -219,16 +374,148 @@
         </div>
     </aside>
 
+    <!-- Main Workspace -->
     <main class="main-content">
+        <!-- Top SIPAG Logo -->
         <header class="top-header">
             <img src="{% static 'images/core/app_logo.png' %}" alt="SIPAG Logo" class="brand-logo">
         </header>
 
-        <h1 class="page-title">Management</h1>
+        {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
-        <div class="content-card">
-            <p>Admin user management and system controls.</p>
+        <!-- Section 1: Pending Encoders -->
+        <h1 class="section-title">Pending Encoders</h1>
+
+        <div class="table-wrap">
+            <table class="mgmt-table">
+                <thead>
+                    <tr>
+                        <th>Encoder Name</th>
+                        <th>Sitio</th>
+                        <th>Request Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if pending_encoders %}
+                        {% for enc in pending_encoders %}
+                            <tr>
+                                <td>{{ enc.get_full_name|default:enc.username }}</td>
+                                <td>{{ enc.barangay.name|default:"—" }}</td>
+                                <td>{{ enc.date_joined|date:"M d, Y"|default:"—" }}</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <form method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="accept">
+                                            <input type="hidden" name="user_id" value="{{ enc.pk }}">
+                                            <button type="submit" class="btn-pill-green">Accept</button>
+                                        </form>
+                                        <form method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="decline">
+                                            <input type="hidden" name="user_id" value="{{ enc.pk }}">
+                                            <button type="submit" class="btn-pill-teal">Decline</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        {% if pending_encoders|length < 4 %}
+                            <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                            <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                            <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                        {% endif %}
+                    {% else %}
+                        <!-- Mockup Initial State -->
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="table-actions">
+                                    <button type="button" class="btn-pill-green">Accept</button>
+                                    <button type="button" class="btn-pill-teal">Decline</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 2: Active Users -->
+        <h1 class="section-title second-section">Active Users</h1>
+
+        <div class="table-wrap">
+            <table class="mgmt-table">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Manage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if active_users %}
+                        {% for u in active_users %}
+                            <tr>
+                                <td>{{ u.get_full_name|default:u.username }}</td>
+                                <td>{{ u.type_of_user|default:"User"|title }}</td>
+                                <td><span class="status-badge">Active</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <form method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="deactivate">
+                                            <input type="hidden" name="user_id" value="{{ u.pk }}">
+                                            <button type="submit" class="btn-pill-green">Deactivate</button>
+                                        </form>
+                                        <form method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="suspend">
+                                            <input type="hidden" name="user_id" value="{{ u.pk }}">
+                                            <button type="submit" class="btn-pill-teal">Suspend</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        {% if active_users|length < 4 %}
+                            <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                            <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                        {% endif %}
+                    {% else %}
+                        <!-- Mockup Initial State -->
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="table-actions">
+                                    <button type="button" class="btn-pill-green">Deactivate</button>
+                                    <button type="button" class="btn-pill-teal">Suspend</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
     </main>
+
 </body>
 </html>

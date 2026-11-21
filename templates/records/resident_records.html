@@ -25,6 +25,7 @@
             overflow-x: hidden;
         }
 
+        /* Fixed Left Sidebar */
         .sidebar {
             width: 260px;
             min-width: 260px;
@@ -130,6 +131,7 @@
             transform: translateX(3px);
         }
 
+        /* Main Workspace Container */
         .main-content {
             margin-left: 260px;
             flex: 1;
@@ -148,31 +150,354 @@
             object-fit: contain;
         }
 
+        /* Title and Search Header Bar */
+        .page-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
         .page-title {
             font-family: 'Montserrat', sans-serif;
             font-size: 1.65rem;
             font-weight: 800;
             color: #184f59;
-            margin-bottom: 20px;
             letter-spacing: -0.3px;
         }
 
-        .content-card {
-            background-color: #ffffff;
-            border-radius: 14px;
-            padding: 30px;
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            width: 240px;
+            height: 38px;
             border: 1.5px solid #184f59;
+            border-radius: 8px;
+            padding: 0 16px;
+            font-family: 'Poppins', sans-serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #184f59;
+            outline: none;
+            background-color: #ffffff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .search-input::placeholder {
+            color: #8c9fa3;
+            font-style: italic;
+        }
+
+        .search-input:focus {
+            border-color: #133f47;
+            box-shadow: 0 0 6px rgba(24, 79, 89, 0.25);
+        }
+
+        /* Table Styling */
+        .table-wrap {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
             box-shadow: 0 4px 15px rgba(24, 79, 89, 0.08);
+            border: 1.5px solid #184f59;
+            margin-bottom: 24px;
+        }
+
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .records-table th {
+            background-color: #184f59;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 700;
+            padding: 14px 16px;
+            border-right: 1.5px solid rgba(255, 255, 255, 0.2);
+            letter-spacing: -0.2px;
+        }
+
+        .records-table th:last-child {
+            border-right: none;
+        }
+
+        .records-table td {
+            height: 48px;
+            padding: 8px 14px;
+            font-size: 0.9rem;
+            color: #222222;
+            border-right: 1px solid #d9e3e7;
+            border-bottom: 1px solid #d9e3e7;
+            background-color: #ffffff;
+        }
+
+        .records-table td:last-child {
+            border-right: none;
+        }
+
+        .records-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .records-table tbody tr:hover td {
+            background-color: #f7fafc;
+        }
+
+        /* Action Buttons */
+        .table-actions {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-pill-green {
+            background-color: #82d134;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 800;
+            padding: 6px 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .btn-pill-green:hover {
+            background-color: #72bd2c;
+            transform: translateY(-1px);
+        }
+
+        .btn-pill-teal {
+            background-color: #184f59;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 800;
+            padding: 6px 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .btn-pill-teal:hover {
+            background-color: #123d45;
+            transform: translateY(-1px);
+        }
+
+        /* Bottom Action Button */
+        .bottom-action-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .btn-add-record {
+            background-color: #184f59;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(24, 79, 89, 0.2);
+        }
+
+        .btn-add-record:hover {
+            background-color: #133f47;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(24, 79, 89, 0.3);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(2px);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background-color: #ffffff;
+            border-radius: 28px;
+            padding: 42px 48px;
+            width: 92%;
+            max-width: 700px;
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.25);
+            position: relative;
+            animation: modalFadeIn 0.2s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            right: 28px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #184f59;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #184f59;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .modal-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .modal-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .req-star {
+            position: absolute;
+            left: 12px;
+            top: 14px;
+            color: #e53e3e;
+            font-weight: 700;
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        .modal-input {
+            width: 100%;
+            height: 48px;
+            border: 1.5px solid #184f59;
+            border-radius: 10px;
+            padding: 0 14px;
+            padding-left: 24px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            color: #184f59;
+            outline: none;
+            background-color: #ffffff;
+        }
+
+        .modal-input.no-star {
+            padding-left: 14px;
+        }
+
+        .modal-input::placeholder {
+            color: #8c9fa3;
+            font-style: italic;
+        }
+
+        .modal-input:focus {
+            box-shadow: 0 0 6px rgba(24, 79, 89, 0.25);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 28px;
+        }
+
+        .modal-btn-submit {
+            background-color: #184f59;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 13px 44px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.15s ease;
+            box-shadow: 0 4px 12px rgba(24, 79, 89, 0.25);
+        }
+
+        .modal-btn-submit:hover {
+            background-color: #133f47;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+                height: auto;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            .table-wrap {
+                overflow-x: auto;
+            }
+            .modal-row {
+                grid-template-columns: 1fr;
+            }
+            .modal-card {
+                padding: 30px 24px;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- Fixed Left Sidebar (Dynamic: Admin vs Encoder) -->
     <aside class="sidebar">
         <div>
             <div class="sidebar-header">
                 <p class="welcome-label">Welcome,</p>
                 <h2 class="user-name">{{ request.user.first_name|default:request.user.username }} {{ request.user.last_name }}</h2>
-                <p class="user-role">{% if request.user.type_of_user %}{{ request.user.type_of_user|title }}{% else %}Encoder{% endif %}</p>
+                <p class="user-role">{% if is_admin %}Admin{% else %}Encoder{% endif %}</p>
             </div>
 
             <nav>
@@ -183,7 +508,7 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    {% if request.user.type_of_user == 'admin' or request.user.is_staff or request.user.is_superuser %}
+                    {% if is_admin %}
                     <li class="nav-item">
                         <a href="{% url 'records:admin_management' %}" class="nav-link">
                             <img src="{% static 'images/core/management_logo.png' %}" alt="Management" class="nav-icon">
@@ -221,16 +546,182 @@
         </div>
     </aside>
 
+    <!-- Main Workspace -->
     <main class="main-content">
+        <!-- Top SIPAG Logo -->
         <header class="top-header">
             <img src="{% static 'images/core/app_logo.png' %}" alt="SIPAG Logo" class="brand-logo">
         </header>
 
-        <h1 class="page-title">Resident Records</h1>
+        <!-- Page Header Row: Title & Search -->
+        <div class="page-header-row">
+            <h1 class="page-title">Resident Records</h1>
+            <div class="search-box">
+                <form method="GET">
+                    <input type="text" name="q" value="{{ q }}" placeholder="Search" class="search-input">
+                </form>
+            </div>
+        </div>
 
-        <div class="content-card">
-            <p>Resident records database and profiling management.</p>
+        <!-- Table Container -->
+        <div class="table-wrap">
+            <table class="records-table">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Sex</th>
+                        <th>Date of Birth</th>
+                        <th>Sitio</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if residents %}
+                        {% for r in residents %}
+                            <tr>
+                                <td>{{ r.first_name }} {{ r.last_name }}</td>
+                                <td>{{ r.sex|title }}</td>
+                                <td>{{ r.date_of_birth|date:"M d, Y" }}</td>
+                                <td>{{ r.household.sitio.name|default:"—" }}</td>
+                                <td>{{ r.household.house_number|default:"" }} {{ r.household.street|default:"—" }}</td>
+                                <td>{{ r.status|title }}</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button type="button" class="btn-pill-green" onclick="alert('Viewing: {{ r.first_name }} {{ r.last_name }}')">View Record</button>
+                                        <button type="button" class="btn-pill-teal" onclick="alert('Editing: {{ r.first_name }} {{ r.last_name }}')">Edit Record</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        {% if residents|length < 8 %}
+                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        {% endif %}
+                    {% else %}
+                        <!-- Mockup Initial State -->
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="table-actions">
+                                    <button type="button" class="btn-pill-green">View Record</button>
+                                    <button type="button" class="btn-pill-teal">Edit Record</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bottom Action Button: + Resident Record -->
+        <div class="bottom-action-row">
+            <button type="button" class="btn-add-record" onclick="openResidentModal()">
+                <span>+ Resident Record</span>
+            </button>
         </div>
     </main>
+
+    <!-- Add Resident Record Modal -->
+    <div class="modal-overlay" id="residentModal">
+        <div class="modal-card">
+            <button type="button" class="modal-close" onclick="closeResidentModal()">&times;</button>
+            <h2 class="modal-title">Resident Record</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="modal-row">
+                    <div class="input-wrap">
+                        <span class="req-star">*</span>
+                        <input type="text" name="first_name" placeholder="First Name" class="modal-input" required>
+                    </div>
+                    <div class="input-wrap">
+                        <input type="text" name="middle_name" placeholder="Middle Name" class="modal-input no-star">
+                    </div>
+                    <div class="input-wrap">
+                        <span class="req-star">*</span>
+                        <input type="text" name="last_name" placeholder="Last Name" class="modal-input" required>
+                    </div>
+                </div>
+
+                <div class="modal-row">
+                    <div class="input-wrap">
+                        <span class="req-star">*</span>
+                        <select name="sex" class="modal-input" required>
+                            <option value="" disabled selected>Sex</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="input-wrap">
+                        <span class="req-star">*</span>
+                        <input type="date" name="date_of_birth" class="modal-input" required>
+                    </div>
+                    <div class="input-wrap">
+                        <select name="civil_status" class="modal-input no-star">
+                            <option value="single">Single</option>
+                            <option value="married">Married</option>
+                            <option value="widowed">Widowed</option>
+                            <option value="separated">Separated</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-row">
+                    <div class="input-wrap">
+                        <input type="text" name="place_of_birth" placeholder="Place of Birth" class="modal-input no-star">
+                    </div>
+                    <div class="input-wrap">
+                        <select name="household_id" class="modal-input no-star">
+                            <option value="">Select Household...</option>
+                            {% for hh in households %}
+                                <option value="{{ hh.pk }}">#{{ hh.house_number }} {{ hh.street }} ({{ hh.sitio.name }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-wrap">
+                        <input type="text" name="contact_number" placeholder="Contact Number" class="modal-input no-star">
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="modal-btn-submit">+ Add New Resident</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openResidentModal() {
+            document.getElementById('residentModal').classList.add('active');
+        }
+
+        function closeResidentModal() {
+            document.getElementById('residentModal').classList.remove('active');
+        }
+
+        // Close when clicking overlay backdrop
+        document.getElementById('residentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeResidentModal();
+            }
+        });
+    </script>
+
 </body>
 </html>
