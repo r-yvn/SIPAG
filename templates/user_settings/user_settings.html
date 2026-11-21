@@ -5,488 +5,518 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings - SIPAG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600..900;1,600..900&family=Poppins:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <style>
-        /* Base Styles & Reset */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            position: relative;
-            background-color: #2b3a2a;
-        }
+        body { background-color: #faf9f5; min-height: 100vh; display: flex; color: #184f59; overflow-x: hidden; }
 
-        /* Background Aerial Photo with Dark Overlay */
-        .bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 260px;
-            width: calc(100% - 260px);
-            height: 100vh;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://i.imgur.com/8f5Y4eF.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
-        }
-
-        /* Fixed Left Sidebar (Matching Home & Profile) */
+        /* Sidebar */
         .sidebar {
-            width: 260px;
-            background-color: #3f5e3a;
-            color: #ffffff;
-            padding: 40px 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-            z-index: 2;
+            width: 260px; min-width: 260px; background-color: #184f59; color: #fff;
+            padding: 40px 0 35px 0; display: flex; flex-direction: column; justify-content: space-between;
+            min-height: 100vh; position: fixed; left: 0; top: 0; bottom: 0; z-index: 100;
         }
+        .sidebar-header { padding: 0 32px 36px 32px; }
+        .welcome-label { font-size: 1.1rem; font-weight: 400; color: rgba(255,255,255,0.9); margin-bottom: 4px; }
+        .user-name { font-family: 'Montserrat', sans-serif; font-size: 1.7rem; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 4px; letter-spacing: -0.3px; }
+        .user-role { font-size: 1rem; font-style: italic; color: rgba(255,255,255,0.82); }
+        .nav-menu { list-style: none; display: flex; flex-direction: column; width: 100%; }
+        .nav-item { width: 100%; }
+        .nav-link { display: flex; align-items: center; gap: 16px; padding: 14px 32px; color: #fff; text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: background-color 0.15s ease, padding-left 0.15s ease; }
+        .nav-link:hover { background-color: rgba(0,0,0,0.12); padding-left: 36px; }
+        .nav-link.active { background-color: rgba(0,0,0,0.22); font-weight: 700; }
+        .nav-icon { width: 22px; height: 22px; object-fit: contain; filter: brightness(0) invert(1); }
+        .sidebar-bottom { padding: 0 32px; }
+        .logout-link { display: flex; align-items: center; gap: 14px; color: #fff; text-decoration: none; font-size: 0.98rem; font-weight: 600; transition: opacity 0.2s ease; }
+        .logout-link:hover { opacity: 0.85; }
 
-        .sidebar-top {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+        /* Main */
+        .main-content { margin-left: 260px; flex: 1; padding: 35px 50px 45px 50px; display: flex; flex-direction: column; }
+        .top-header { margin-bottom: 25px; }
+        .brand-logo { height: 48px; width: auto; object-fit: contain; }
 
-        .avatar-circle {
-            width: 140px;
-            height: 140px;
-            background-color: #cad1d9;
-            border-radius: 50%;
-            margin-bottom: 25px;
+        /* Settings Card */
+        .settings-card {
+            background-color: #fff;
+            border-radius: 16px;
             overflow: hidden;
+            box-shadow: 0 4px 20px rgba(24,79,89,0.10);
+            border: 1.5px solid #d9e3e7;
+            max-width: 760px;
+        }
+
+        .settings-card-header {
+            background-color: #184f59;
+            padding: 22px 32px;
+        }
+
+        .settings-card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.2px;
+        }
+
+        /* Tabs */
+        .settings-tabs {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 32px;
+            padding: 20px 32px 0 32px;
+            border-bottom: 1.5px solid #e8edf0;
         }
 
-        .avatar-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .tab-btn {
+            background: none;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.98rem;
+            font-weight: 500;
+            color: #8c9fa3;
+            padding-bottom: 14px;
+            cursor: pointer;
+            border-bottom: 2.5px solid transparent;
+            margin-bottom: -1.5px;
+            transition: color 0.15s ease, border-color 0.15s ease;
+            text-decoration: none;
         }
 
-        .barangay-title {
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 1.4;
-            margin-bottom: 35px;
+        .tab-btn.active {
+            color: #184f59;
+            font-weight: 700;
+            border-bottom-color: #184f59;
+            text-decoration: underline;
         }
 
-        .nav-links {
-            list-style: none;
-            width: 100%;
-            text-align: left;
-            margin-top: 20px;
+        /* Tab Panels */
+        .tab-panel { display: none; padding: 28px 32px 32px 32px; }
+        .tab-panel.active { display: block; }
+
+        /* Form Labels */
+        .field-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #8c9fa3;
+            font-style: italic;
+            margin-bottom: 8px;
         }
 
-        .nav-links li {
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
             margin-bottom: 18px;
         }
 
-        .nav-links a {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            transition: opacity 0.2s, transform 0.2s;
-            display: inline-block;
-        }
-
-        .nav-links a:hover {
-            opacity: 0.8;
-            transform: translateX(3px);
-        }
-
-        .nav-links a.active {
-            font-weight: 700;
-            text-decoration: underline;
-            text-underline-offset: 4px;
-        }
-
-        .sidebar-bottom {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: auto;
-            text-align: left;
-        }
-
-        /* Main Workspace Container */
-        .main-container {
-            margin-left: 260px;
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            position: relative;
-            z-index: 2;
-            min-height: 100vh;
-        }
-
-        /* White Rounded Settings Card */
-        .settings-card {
-            background-color: #ffffff;
+        .settings-input {
             width: 100%;
-            max-width: 780px;
-            border-radius: 36px;
-            padding: 45px 55px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
+            height: 48px;
+            border: 1.5px solid #184f59;
+            border-radius: 10px;
+            padding: 0 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.92rem;
+            color: #184f59;
+            outline: none;
+            background-color: #fff;
+            transition: box-shadow 0.2s ease;
         }
 
-        .card-header {
-            margin-bottom: 24px;
-            border-bottom: 1px solid #edf0f5;
-            padding-bottom: 16px;
+        .settings-input::placeholder { color: #8c9fa3; font-style: italic; }
+        .settings-input:focus { box-shadow: 0 0 0 3px rgba(24,79,89,0.15); }
+
+        /* Password warning */
+        .pw-warning {
+            font-size: 0.88rem;
+            color: #e53e3e;
+            font-style: italic;
+            margin-top: 10px;
         }
 
-        .settings-title {
-            font-size: 32px;
-            font-weight: 800;
-            color: #000000;
-            margin-bottom: 6px;
-        }
-
-        .settings-subtitle {
-            font-size: 14px;
-            color: #666666;
-        }
-
-        /* Alerts */
-        .alert-success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            padding: 12px 18px;
-            border-radius: 12px;
-            font-size: 14px;
+        /* Preference */
+        .pref-section-label {
+            font-size: 0.82rem;
             font-weight: 600;
+            color: #8c9fa3;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        .pref-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
             margin-bottom: 20px;
         }
 
-        /* Section Groups */
-        .settings-section {
-            margin-bottom: 28px;
-        }
-
-        .section-heading {
-            font-size: 15px;
-            font-weight: 700;
-            color: #3f5e3a;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
-        }
-
-        /* Setting Item Row */
-        .setting-row {
+        .checkbox-row {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid #f1f3f7;
+            gap: 10px;
+            margin-top: 4px;
         }
 
-        .setting-row:last-child {
-            border-bottom: none;
-        }
-
-        .setting-text {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .setting-label {
-            font-size: 15px;
-            font-weight: 600;
-            color: #222222;
-        }
-
-        .setting-description {
-            font-size: 13px;
-            color: #777777;
-        }
-
-        /* Modern Toggle Switch */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 28px;
-            flex-shrink: 0;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
+        .checkbox-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #184f59;
             cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #cbd5e1;
-            transition: 0.3s;
-            border-radius: 28px;
         }
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: 0.3s;
-            border-radius: 50%;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        .checkbox-label {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #184f59;
+            cursor: pointer;
         }
 
-        input:checked + .slider {
-            background-color: #3f5e3a;
+        .skin-label {
+            font-size: 0.82rem;
+            color: #8c9fa3;
+            font-style: italic;
+            margin-bottom: 8px;
         }
 
-        input:checked + .slider:before {
-            transform: translateX(22px);
-        }
-
-        /* Read-only Info List */
-        .account-info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px 24px;
-            background-color: #f7f9fc;
-            padding: 18px 22px;
-            border-radius: 16px;
-        }
-
-        .account-item {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .account-item .item-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #888888;
-            text-transform: uppercase;
-        }
-
-        .account-item .item-value {
-            font-size: 14px;
-            font-weight: 600;
-            color: #222222;
-        }
-
-        /* Card Bottom Action Buttons Area */
-        .card-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 35px;
-            padding-top: 20px;
-            border-top: 1px solid #edf0f5;
+        .skin-select {
             width: 100%;
+            height: 48px;
+            border: 1.5px solid #184f59;
+            border-radius: 10px;
+            padding: 0 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.92rem;
+            color: #184f59;
+            outline: none;
+            background-color: #fff;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23184f59' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
+            cursor: pointer;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 10px 26px;
-            background-color: #e2e5ec;
-            color: #2b303a;
-            text-decoration: none;
-            font-size: 13px;
+        /* Save Button */
+        .save-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        .btn-save {
+            background-color: #184f59;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
             font-weight: 700;
-            border-radius: 16px;
+            padding: 11px 36px;
+            border-radius: 8px;
             border: none;
             cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-            text-align: center;
+            transition: background-color 0.2s ease, transform 0.15s ease;
+            box-shadow: 0 4px 10px rgba(24,79,89,0.2);
         }
 
-        .btn:hover {
-            background-color: #d1d6e1;
-            transform: translateY(-1px);
+        .btn-save:hover { background-color: #133f47; transform: translateY(-1px); }
+
+        /* Account Overview Card */
+        .overview-card {
+            background-color: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(24,79,89,0.10);
+            border: 1.5px solid #d9e3e7;
+            max-width: 760px;
+            margin-top: 28px;
         }
 
-        .btn-primary {
-            background-color: #3f5e3a;
-            color: #ffffff;
+        .overview-header {
+            background-color: #184f59;
+            padding: 18px 32px;
         }
 
-        .btn-primary:hover {
-            background-color: #344e30;
+        .overview-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fff;
         }
 
-        @media (max-width: 900px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-                min-height: auto;
-                padding: 24px 20px;
-            }
-            .bg-overlay {
-                display: none;
-            }
-            .main-container {
-                margin-left: 0;
-                padding: 20px;
-            }
-            .settings-card {
-                padding: 30px 24px;
-            }
-            .account-info-grid {
-                grid-template-columns: 1fr;
-            }
+        .overview-body {
+            padding: 24px 32px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px 32px;
+        }
+
+        .overview-item {}
+
+        .overview-key {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #8c9fa3;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .overview-val {
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: #184f59;
+        }
+
+        /* Messages */
+        .msg-bar {
+            margin-bottom: 18px;
+            max-width: 760px;
+        }
+
+        .alert {
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .alert-success { background-color: #eaf8dd; color: #2e6616; border: 1px solid #c4ebb0; }
+        .alert-error { background-color: #fde8e8; color: #9b1c1c; border: 1px solid #f8b4b4; }
+
+        @media (max-width: 768px) {
+            .sidebar { position: relative; width: 100%; min-height: auto; height: auto; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+            .form-row-2 { grid-template-columns: 1fr; }
+            .pref-layout { grid-template-columns: 1fr; }
+            .overview-body { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Background Image Overlay Layer -->
-    <div class="bg-overlay"></div>
-
-    <!-- Fixed Left Sidebar -->
-    <nav class="sidebar">
-        <div class="sidebar-top">
-            <!-- User Avatar -->
-            <div class="avatar-circle">
-                {% if profile.profile_image %}
-                    <img src="{{ profile.profile_image.url }}" alt="Avatar">
-                {% else %}
-                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
-                        <circle cx="50" cy="50" r="50" fill="#D9DFEA"/>
-                        <circle cx="50" cy="40" r="18" fill="#8E99A8"/>
-                        <path d="M50 62C34 62 20 73 17 87C25.5 95 37 100 50 100C63 100 74.5 95 83 87C80 73 66 62 50 62Z" fill="#8E99A8"/>
-                    </svg>
-                {% endif %}
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-header">
+                <p class="welcome-label">Welcome,</p>
+                <h2 class="user-name">{{ user_profile.first_name|default:user_profile.username }} {{ user_profile.last_name }}</h2>
+                <p class="user-role">{% if is_admin %}Admin{% else %}Encoder{% endif %}</p>
             </div>
-
-            <!-- Barangay Title Placeholder -->
-            <div class="barangay-title">
-                Barangay<br>
-                <span>{{ user_profile.barangay.name|default:"{barangay_name}" }}</span>
-            </div>
-
-            <!-- Navigation Links -->
-            <ul class="nav-links">
-                <li><a href="{% url 'profile' %}">Profile</a></li>
-                <li><a href="{% url 'records:resident_records' %}">Resident Records</a></li>
-                <li><a href="{% url 'records:household_records' %}">Household Records</a></li>
-                <li><a href="{% url 'user_settings' %}" class="active">Settings</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-            </ul>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'home' %}" class="nav-link">
+                            <img src="{% static 'images/core/dashboard_logo.png' %}" alt="Dashboard" class="nav-icon">
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    {% if is_admin %}
+                    <li class="nav-item">
+                        <a href="{% url 'records:admin_management' %}" class="nav-link">
+                            <img src="{% static 'images/core/management_logo.png' %}" alt="Management" class="nav-icon">
+                            <span>Management</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a href="{% url 'records:resident_records' %}" class="nav-link">
+                            <img src="{% static 'images/core/resident_records_logo.png' %}" alt="Resident Records" class="nav-icon">
+                            <span>Resident Records</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'records:household_records' %}" class="nav-link">
+                            <img src="{% static 'images/core/household_records_logo.png' %}" alt="Household Records" class="nav-icon">
+                            <span>Household Records</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'user_settings' %}" class="nav-link active">
+                            <img src="{% static 'images/core/settings_logo.png' %}" alt="Settings" class="nav-icon">
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-
-        <!-- Date Placeholder -->
         <div class="sidebar-bottom">
-            Date: <span id="current-date"></span>
+            <a href="{% url 'logout' %}" class="logout-link">
+                <img src="{% static 'images/core/logout_logo.png' %}" alt="Logout" class="nav-icon">
+                <span>Logout</span>
+            </a>
         </div>
-    </nav>
+    </aside>
 
-    <!-- Main Settings Content -->
-    <main class="main-container">
-        <form method="POST" class="settings-card">
-            {% csrf_token %}
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="top-header">
+            <img src="{% static 'images/core/app_logo.png' %}" alt="SIPAG Logo" class="brand-logo">
+        </header>
 
-            <div class="card-header">
-                <h1 class="settings-title">Account Settings</h1>
-                <p class="settings-subtitle">Manage system preferences and review your account details.</p>
+        {% if messages %}
+        <div class="msg-bar">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Settings Card -->
+        <div class="settings-card">
+            <div class="settings-card-header">
+                <h1 class="settings-card-title">Settings</h1>
             </div>
 
-            <!-- Success Alert -->
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert-success">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-
-            <!-- Preferences Section -->
-            <section class="settings-section">
-                <h2 class="section-heading">System Preferences</h2>
-
-                <div class="setting-row">
-                    <div class="setting-text">
-                        <span class="setting-label">Dark Mode</span>
-                        <span class="setting-description">Enable a dark visual theme across dashboard screens.</span>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" name="dark_mode" {% if user_settings.dark_mode %}checked{% endif %}>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-
-                <div class="setting-row">
-                    <div class="setting-text">
-                        <span class="setting-label">Email Notifications</span>
-                        <span class="setting-description">Receive email alerts about system updates and resident registrations.</span>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" name="email_notifications" {% if user_settings.email_notifications %}checked{% endif %}>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </section>
-
-            <!-- Account Details Section -->
-            <section class="settings-section">
-                <h2 class="section-heading">Account Overview</h2>
-                <div class="account-info-grid">
-                    <div class="account-item">
-                        <span class="item-label">Username</span>
-                        <span class="item-value">{{ user_profile.username }}</span>
-                    </div>
-                    <div class="account-item">
-                        <span class="item-label">Role</span>
-                        <span class="item-value">{{ user_profile.type_of_user|title|default:"Staff" }}</span>
-                    </div>
-                    <div class="account-item">
-                        <span class="item-label">Barangay</span>
-                        <span class="item-value">{{ user_profile.barangay.name|default:"Not Assigned" }}</span>
-                    </div>
-                    <div class="account-item">
-                        <span class="item-label">Contact Number</span>
-                        <span class="item-value">{{ user_profile.contact_number|default:"N/A" }}</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Bottom Actions -->
-            <div class="card-actions">
-                <a href="{% url 'home' %}" class="btn">Back to Home</a>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+            <!-- Tabs -->
+            <div class="settings-tabs">
+                <button class="tab-btn active" onclick="switchTab('details', this)">Details</button>
+                <button class="tab-btn" onclick="switchTab('password', this)">Password</button>
+                <button class="tab-btn" onclick="switchTab('preference', this)">Preference</button>
             </div>
-        </form>
+
+            <!-- Tab: Details -->
+            <div class="tab-panel active" id="panel-details">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="tab" value="details">
+
+                    <div class="field-label">Edit Name</div>
+                    <div class="form-row-2" style="margin-bottom:18px;">
+                        <input type="text" name="first_name" class="settings-input"
+                               placeholder="First name (e.g. John)" value="{{ user_profile.first_name }}">
+                        <input type="text" name="last_name" class="settings-input"
+                               placeholder="Last name (e.g. Doe)" value="{{ user_profile.last_name }}">
+                    </div>
+
+                    <div class="form-row-2">
+                        <div>
+                            <div class="field-label">Edit Email Address</div>
+                            <input type="email" name="email" class="settings-input"
+                                   placeholder="Email Address" value="{{ user_profile.email }}">
+                        </div>
+                        <div>
+                            <div class="field-label">Edit Contact Number</div>
+                            <input type="text" name="contact_number" class="settings-input"
+                                   placeholder="Contact Number" value="{{ user_profile.contact_number|default:'' }}">
+                        </div>
+                    </div>
+
+                    <div class="save-row">
+                        <button type="submit" class="btn-save">Save</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tab: Password -->
+            <div class="tab-panel" id="panel-password">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="tab" value="password">
+
+                    <div class="field-label">Edit Password</div>
+                    <div class="form-row-2">
+                        <input type="password" name="new_password" class="settings-input" placeholder="New Password">
+                        <input type="password" name="confirm_password" class="settings-input" placeholder="Confirm New Password">
+                    </div>
+                    <p class="pw-warning">Warning: Changing your password is a permanent change</p>
+
+                    <div class="save-row">
+                        <button type="submit" class="btn-save">Save</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tab: Preference -->
+            <div class="tab-panel" id="panel-preference">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="tab" value="preference">
+
+                    <div class="pref-layout">
+                        <div>
+                            <div class="pref-section-label">Set Your Preferences</div>
+                            <div class="checkbox-row">
+                                <input type="checkbox" id="enable-notifications" name="email_notifications"
+                                       {% if user_settings.email_notifications %}checked{% endif %}>
+                                <label class="checkbox-label" for="enable-notifications">Enable Notifications</label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="skin-label">Choose App Skin</div>
+                            <select class="skin-select">
+                                <option value="default" selected>Default</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="save-row">
+                        <button type="submit" class="btn-save">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Account Overview Card -->
+        <div class="overview-card">
+            <div class="overview-header">
+                <h2 class="overview-title">Account Overview</h2>
+            </div>
+            <div class="overview-body">
+                <div class="overview-item">
+                    <div class="overview-key">Full Name</div>
+                    <div class="overview-val">{{ user_profile.first_name }} {{ user_profile.last_name }}</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-key">Username</div>
+                    <div class="overview-val">{{ user_profile.username }}</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-key">Email</div>
+                    <div class="overview-val">{{ user_profile.email|default:"—" }}</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-key">Contact Number</div>
+                    <div class="overview-val">{{ user_profile.contact_number|default:"—" }}</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-key">Role</div>
+                    <div class="overview-val">{% if is_admin %}Admin{% else %}Encoder{% endif %}</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-key">Account Status</div>
+                    <div class="overview-val">{% if user_profile.is_active %}Active{% else %}Inactive{% endif %}</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-key">Member Since</div>
+                    <div class="overview-val">{{ user_profile.date_joined|date:"F d, Y" }}</div>
+                </div>
+                <div class="overview-item">
+                    <div class="overview-key">Barangay</div>
+                    <div class="overview-val">{{ user_profile.barangay.name|default:"—" }}</div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script>
-        // Display current date matching the format
-        const dateElement = document.getElementById('current-date');
-        if (dateElement) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            dateElement.textContent = new Date().toLocaleDateString('en-US', options);
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('panel-' + tabId).classList.add('active');
         }
+
+        // On page load: if messages exist and we know which tab caused them, re-activate that tab
+        // Check URL hash or fallback to details
+        (function() {
+            const hash = window.location.hash.replace('#', '');
+            if (hash === 'password' || hash === 'preference') {
+                const btn = document.querySelector(`.tab-btn[onclick*="${hash}"]`);
+                if (btn) switchTab(hash, btn);
+            }
+        })();
     </script>
 </body>
 </html>

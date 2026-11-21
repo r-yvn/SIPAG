@@ -637,29 +637,35 @@
         </div>
     </main>
 
-    <!-- Add Resident Record Modal -->
+    <!-- Add Resident Record Modal (consolidated — matches mockup exactly) -->
     <div class="modal-overlay" id="residentModal">
-        <div class="modal-card">
+        <div class="modal-card" style="max-width:820px;">
             <button type="button" class="modal-close" onclick="closeResidentModal()">&times;</button>
             <h2 class="modal-title">Resident Record</h2>
 
             <form method="POST">
                 {% csrf_token %}
-                <div class="modal-row">
+
+                <!-- Row 1: First name | Middle name | Last name | Suffix name -->
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;margin-bottom:14px;">
                     <div class="input-wrap">
                         <span class="req-star">*</span>
-                        <input type="text" name="first_name" placeholder="First Name" class="modal-input" required>
+                        <input type="text" name="first_name" placeholder="First name" class="modal-input" required>
                     </div>
                     <div class="input-wrap">
-                        <input type="text" name="middle_name" placeholder="Middle Name" class="modal-input no-star">
+                        <input type="text" name="middle_name" placeholder="Middle name" class="modal-input no-star">
                     </div>
                     <div class="input-wrap">
                         <span class="req-star">*</span>
-                        <input type="text" name="last_name" placeholder="Last Name" class="modal-input" required>
+                        <input type="text" name="last_name" placeholder="Last name" class="modal-input" required>
+                    </div>
+                    <div class="input-wrap">
+                        <input type="text" name="suffix_name" placeholder="Suffix name" class="modal-input no-star">
                     </div>
                 </div>
 
-                <div class="modal-row">
+                <!-- Row 2: Sex | Date of Birth | Place of Birth -->
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;">
                     <div class="input-wrap">
                         <span class="req-star">*</span>
                         <select name="sex" class="modal-input" required>
@@ -670,32 +676,52 @@
                     </div>
                     <div class="input-wrap">
                         <span class="req-star">*</span>
-                        <input type="date" name="date_of_birth" class="modal-input" required>
+                        <input type="date" name="date_of_birth" class="modal-input" required title="Date of Birth">
                     </div>
                     <div class="input-wrap">
+                        <span class="req-star">*</span>
+                        <input type="text" name="place_of_birth" placeholder="Place of Birth" class="modal-input" required>
+                    </div>
+                </div>
+
+                <!-- Row 3: Civil Status | Voter Status | Contact Number -->
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;">
+                    <div class="input-wrap">
                         <select name="civil_status" class="modal-input no-star">
+                            <option value="single">Civil Status</option>
                             <option value="single">Single</option>
                             <option value="married">Married</option>
                             <option value="widowed">Widowed</option>
                             <option value="separated">Separated</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="modal-row">
                     <div class="input-wrap">
-                        <input type="text" name="place_of_birth" placeholder="Place of Birth" class="modal-input no-star">
-                    </div>
-                    <div class="input-wrap">
-                        <select name="household_id" class="modal-input no-star">
-                            <option value="">Select Household...</option>
-                            {% for hh in households %}
-                                <option value="{{ hh.pk }}">#{{ hh.house_number }} {{ hh.street }} ({{ hh.sitio.name }})</option>
-                            {% endfor %}
+                        <select name="voter_status" class="modal-input no-star">
+                            <option value="">Voter Status</option>
+                            <option value="registered">Registered</option>
+                            <option value="not_registered">Not Registered</option>
                         </select>
                     </div>
                     <div class="input-wrap">
-                        <input type="text" name="contact_number" placeholder="Contact Number" class="modal-input no-star">
+                        <span class="req-star">*</span>
+                        <input type="text" name="contact_number" placeholder="Contact Number" class="modal-input" required>
+                    </div>
+                </div>
+
+                <!-- Row 4: Occupation | Address (household) -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+                    <div class="input-wrap">
+                        <span class="req-star">*</span>
+                        <input type="text" name="occupation" placeholder="Occupation" class="modal-input">
+                    </div>
+                    <div class="input-wrap">
+                        <span class="req-star">*</span>
+                        <select name="household_id" class="modal-input">
+                            <option value="">Address (Household)</option>
+                            {% for hh in households %}
+                                <option value="{{ hh.pk }}">#{{ hh.house_number }} {{ hh.street }} — {{ hh.sitio.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
 
@@ -715,12 +741,12 @@
             document.getElementById('residentModal').classList.remove('active');
         }
 
-        // Close when clicking overlay backdrop
         document.getElementById('residentModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeResidentModal();
-            }
+            if (e.target === this) closeResidentModal();
         });
+
+        // Auto-open if redirected from dashboard
+        if (window.location.search.includes('add=resident')) openResidentModal();
     </script>
 
 </body>

@@ -68,6 +68,8 @@ def resident_records_view(request):
         occupation = request.POST.get('occupation', '').strip()
         contact_number = request.POST.get('contact_number', '').strip()
         household_id = request.POST.get('household_id')
+        voter_status = request.POST.get('voter_status', '').strip()
+        occupation = request.POST.get('occupation', '').strip()
 
         household_obj = None
         if household_id:
@@ -85,6 +87,7 @@ def resident_records_view(request):
                 civil_status=civil_status,
                 occupation=occupation,
                 contact_number=contact_number,
+                voter_status=voter_status,
                 household=household_obj,
                 created_by=request.user,
                 encoder=request.user,
