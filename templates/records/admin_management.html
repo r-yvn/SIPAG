@@ -5,380 +5,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Management - SIPAG</title>
-    <!-- Google Fonts: Montserrat & Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600..900;1,600..900&family=Poppins:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #faf9f5; min-height: 100vh; display: flex; color: #184f59; overflow-x: hidden; }
+        .sidebar { width: 260px; min-width: 260px; background-color: #184f59; color: #fff; padding: 40px 0 35px 0; display: flex; flex-direction: column; justify-content: space-between; min-height: 100vh; position: fixed; left: 0; top: 0; bottom: 0; z-index: 100; }
+        .sidebar-header { padding: 0 32px 36px 32px; }
+        .welcome-label { font-size: 1.15rem; font-weight: 400; color: rgba(255,255,255,0.9); margin-bottom: 4px; }
+        .user-name { font-family: 'Montserrat', sans-serif; font-size: 1.7rem; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 4px; letter-spacing: -0.3px; }
+        .user-role { font-size: 1rem; font-style: italic; color: rgba(255,255,255,0.82); }
+        .nav-menu { list-style: none; display: flex; flex-direction: column; width: 100%; }
+        .nav-item { width: 100%; }
+        .nav-link { display: flex; align-items: center; gap: 16px; padding: 14px 32px; color: #fff; text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: background-color 0.15s ease, padding-left 0.15s ease; }
+        .nav-link:hover { background-color: rgba(0,0,0,0.12); padding-left: 36px; }
+        .nav-link.active { background-color: rgba(0,0,0,0.22); font-weight: 700; }
+        .nav-icon { width: 22px; height: 22px; object-fit: contain; filter: brightness(0) invert(1); }
+        .sidebar-bottom { padding: 0 32px; }
+        .logout-link { display: flex; align-items: center; gap: 14px; color: #fff; text-decoration: none; font-size: 0.98rem; font-weight: 600; }
 
-        body {
-            background-color: #faf9f5;
-            min-height: 100vh;
-            display: flex;
-            color: #184f59;
-            overflow-x: hidden;
-        }
+        .main-content { margin-left: 260px; flex: 1; padding: 35px 50px 45px 50px; display: flex; flex-direction: column; }
+        .top-header { margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .brand-logo { height: 48px; width: auto; object-fit: contain; }
+        .section-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .section-title { font-family: 'Montserrat', sans-serif; font-size: 1.65rem; font-weight: 800; color: #184f59; letter-spacing: -0.3px; }
+        .section-title.second-section { margin-top: 36px; margin-bottom: 16px; }
 
-        /* Fixed Left Sidebar */
-        .sidebar {
-            width: 260px;
-            min-width: 260px;
-            background-color: #184f59;
-            color: #ffffff;
-            padding: 40px 0 35px 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            z-index: 100;
-        }
+        .table-wrap { width: 100%; background-color: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(24,79,89,0.08); border: 1.5px solid #184f59; }
+        .mgmt-table { width: 100%; border-collapse: collapse; text-align: center; }
+        .mgmt-table th { background-color: #184f59; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; padding: 14px 16px; border-right: 1.5px solid rgba(255,255,255,0.2); }
+        .mgmt-table th:last-child { border-right: none; }
+        .mgmt-table td { height: 50px; padding: 8px 14px; font-size: 0.9rem; color: #222; border-right: 1px solid #d9e3e7; border-bottom: 1px solid #d9e3e7; background-color: #fff; }
+        .mgmt-table td:last-child { border-right: none; }
+        .mgmt-table tbody tr:last-child td { border-bottom: none; }
 
-        .sidebar-header {
-            padding: 0 32px 36px 32px;
-        }
+        .inline-select { height: 36px; border: 1.5px solid #184f59; border-radius: 8px; padding: 0 10px; font-size: 0.85rem; color: #184f59; min-width: 150px; }
+        .table-actions { display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-pill-green { background-color: #82d134; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 800; padding: 7px 18px; border-radius: 8px; border: none; cursor: pointer; }
+        .btn-pill-teal { background-color: #184f59; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 800; padding: 7px 18px; border-radius: 8px; border: none; cursor: pointer; }
+        .btn-add-record { background-color: #184f59; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 700; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; }
 
-        .welcome-label {
-            font-size: 1.15rem;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 4px;
-        }
+        .status-badge { font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; display: inline-block; }
+        .status-active { background: #eaf8dd; color: #2e6616; }
+        .status-inactive, .status-suspended { background: #fde8e8; color: #9b1c1c; }
 
-        .user-name {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.7rem;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.2;
-            margin-bottom: 4px;
-            letter-spacing: -0.3px;
-        }
+        .messages-container { margin-bottom: 20px; }
+        .alert { padding: 12px 18px; border-radius: 8px; font-size: 0.92rem; margin-bottom: 10px; font-weight: 500; }
+        .alert-success { background-color: #eaf8dd; color: #2e6616; border: 1px solid #c4ebb0; }
+        .alert-warning, .alert-error { background-color: #fde8e8; color: #9b1c1c; border: 1px solid #f8b4b4; }
+        .alert-info { background-color: #e8f4f8; color: #184f59; border: 1px solid #b3d7e2; }
 
-        .user-role {
-            font-size: 1rem;
-            font-style: italic;
-            color: rgba(255, 255, 255, 0.82);
-            font-weight: 400;
-        }
-
-        .nav-menu {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .nav-item {
-            width: 100%;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 32px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: background-color 0.15s ease, padding-left 0.15s ease;
-        }
-
-        .nav-link:hover {
-            background-color: rgba(0, 0, 0, 0.12);
-            padding-left: 36px;
-        }
-
-        .nav-link.active {
-            background-color: rgba(0, 0, 0, 0.22);
-            font-weight: 700;
-        }
-
-        .nav-icon {
-            width: 22px;
-            height: 22px;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-        }
-
-        .sidebar-bottom {
-            padding: 0 32px;
-        }
-
-        .logout-link {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.98rem;
-            font-weight: 600;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-        }
-
-        .logout-link:hover {
-            opacity: 0.85;
-            transform: translateX(3px);
-        }
-
-        /* Main Workspace Container */
-        .main-content {
-            margin-left: 260px;
-            flex: 1;
-            padding: 35px 50px 45px 50px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .top-header {
-            margin-bottom: 25px;
-        }
-
-        .brand-logo {
-            height: 48px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        /* Section Titles */
-        .section-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.65rem;
-            font-weight: 800;
-            color: #184f59;
-            margin-bottom: 16px;
-            letter-spacing: -0.3px;
-        }
-
-        .section-title.second-section {
-            margin-top: 36px;
-        }
-
-        /* Table Card Wrappers */
-        .table-wrap {
-            width: 100%;
-            background-color: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(24, 79, 89, 0.08);
-            border: 1.5px solid #184f59;
-        }
-
-        .mgmt-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: center;
-        }
-
-        .mgmt-table th {
-            background-color: #184f59;
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.92rem;
-            font-weight: 700;
-            padding: 14px 16px;
-            border-right: 1.5px solid rgba(255, 255, 255, 0.2);
-            letter-spacing: -0.2px;
-        }
-
-        .mgmt-table th:last-child {
-            border-right: none;
-        }
-
-        .mgmt-table td {
-            height: 48px;
-            padding: 8px 14px;
-            font-size: 0.9rem;
-            color: #222222;
-            border-right: 1px solid #d9e3e7;
-            border-bottom: 1px solid #d9e3e7;
-            background-color: #ffffff;
-        }
-
-        .mgmt-table td:last-child {
-            border-right: none;
-        }
-
-        .mgmt-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .mgmt-table tbody tr:hover td {
-            background-color: #f7fafc;
-        }
-
-        /* Action Buttons */
-        .table-actions {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-pill-green {
-            background-color: #82d134;
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 800;
-            padding: 6px 20px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: background-color 0.15s ease, transform 0.15s ease;
-        }
-
-        .btn-pill-green:hover {
-            background-color: #72bd2c;
-            transform: translateY(-1px);
-        }
-
-        .btn-pill-teal {
-            background-color: #184f59;
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 800;
-            padding: 6px 20px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: background-color 0.15s ease, transform 0.15s ease;
-        }
-
-        .btn-pill-teal:hover {
-            background-color: #123d45;
-            transform: translateY(-1px);
-        }
-
-        /* Status Tag */
-        .status-badge {
-            color: #184f59;
-            font-weight: 600;
-        }
-
-        /* Messages */
-        .messages-container {
-            margin-bottom: 20px;
-        }
-
-        .alert {
-            padding: 12px 18px;
-            border-radius: 8px;
-            font-size: 0.92rem;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
-        .alert-success {
-            background-color: #eaf8dd;
-            color: #2e6616;
-            border: 1px solid #c4ebb0;
-        }
-
-        .alert-warning, .alert-error {
-            background-color: #fde8e8;
-            color: #9b1c1c;
-            border: 1px solid #f8b4b4;
-        }
-
-        .alert-info {
-            background-color: #e8f4f8;
-            color: #184f59;
-            border: 1px solid #b3d7e2;
-        }
+        /* Modals */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(2px); z-index: 999; display: none; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-card { background: #fff; border-radius: 24px; padding: 36px 40px; width: 92%; max-width: 500px; position: relative; box-shadow: 0 16px 45px rgba(0,0,0,0.25); }
+        .modal-close { position: absolute; top: 18px; right: 24px; background: none; border: none; font-size: 1.8rem; color: #184f59; cursor: pointer; }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 24px; }
+        .form-field { margin-bottom: 16px; }
+        .form-field label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
+        .modal-input { width: 100%; height: 46px; border: 1.5px solid #184f59; border-radius: 10px; padding: 0 14px; font-size: 0.92rem; outline: none; }
+        .modal-btn-submit { width: 100%; background: #184f59; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; border-radius: 10px; padding: 13px; border: none; cursor: pointer; margin-top: 8px; }
 
         @media (max-width: 768px) {
-            .sidebar {
-                position: relative;
-                width: 100%;
-                min-height: auto;
-                height: auto;
-            }
-            .main-content {
-                margin-left: 0;
-                padding: 24px 20px;
-            }
-            .table-wrap {
-                overflow-x: auto;
-            }
+            .sidebar { position: relative; width: 100%; min-height: auto; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+            .table-wrap { overflow-x: auto; }
         }
     </style>
+    {% include 'includes/theme_styles.html' %}
 </head>
-<body>
+<body data-theme="{{ user_skin|default:'default' }}">
 
-    <!-- Fixed Left Sidebar (Admin only) -->
     <aside class="sidebar">
         <div>
             <div class="sidebar-header">
                 <p class="welcome-label">Welcome,</p>
                 <h2 class="user-name">{{ request.user.first_name|default:request.user.username }} {{ request.user.last_name }}</h2>
-                <p class="user-role">{% if request.user.type_of_user %}{{ request.user.type_of_user|title }}{% else %}Admin{% endif %}</p>
+                <p class="user-role">Admin</p>
             </div>
-
             <nav>
                 <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="{% url 'home' %}" class="nav-link">
-                            <img src="{% static 'images/core/dashboard_logo.png' %}" alt="Dashboard" class="nav-icon">
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'records:admin_management' %}" class="nav-link active">
-                            <img src="{% static 'images/core/management_logo.png' %}" alt="Management" class="nav-icon">
-                            <span>Management</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'records:resident_records' %}" class="nav-link">
-                            <img src="{% static 'images/core/resident_records_logo.png' %}" alt="Resident Records" class="nav-icon">
-                            <span>Resident Records</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'records:household_records' %}" class="nav-link">
-                            <img src="{% static 'images/core/household_records_logo.png' %}" alt="Household Records" class="nav-icon">
-                            <span>Household Records</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'user_settings' %}" class="nav-link">
-                            <img src="{% static 'images/core/settings_logo.png' %}" alt="Settings" class="nav-icon">
-                            <span>Settings</span>
-                        </a>
-                    </li>
+                    <li class="nav-item"><a href="{% url 'home' %}" class="nav-link"><img src="{% static 'images/core/dashboard_logo.png' %}" alt="" class="nav-icon"><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a href="{% url 'records:admin_management' %}" class="nav-link active"><img src="{% static 'images/core/management_logo.png' %}" alt="" class="nav-icon"><span>Management</span></a></li>
+                    <li class="nav-item"><a href="{% url 'records:resident_records' %}" class="nav-link"><img src="{% static 'images/core/resident_records_logo.png' %}" alt="" class="nav-icon"><span>Resident Records</span></a></li>
+                    <li class="nav-item"><a href="{% url 'records:household_records' %}" class="nav-link"><img src="{% static 'images/core/household_records_logo.png' %}" alt="" class="nav-icon"><span>Household Records</span></a></li>
+                    <li class="nav-item"><a href="{% url 'user_settings' %}" class="nav-link"><img src="{% static 'images/core/settings_logo.png' %}" alt="" class="nav-icon"><span>Settings</span></a></li>
                 </ul>
             </nav>
         </div>
-
         <div class="sidebar-bottom">
-            <a href="{% url 'logout' %}" class="logout-link">
-                <img src="{% static 'images/core/logout_logo.png' %}" alt="Logout" class="nav-icon">
-                <span>Logout</span>
-            </a>
+            <a href="{% url 'logout' %}" class="logout-link"><img src="{% static 'images/core/logout_logo.png' %}" alt="" class="nav-icon"><span>Logout</span></a>
         </div>
     </aside>
 
-    <!-- Main Workspace -->
     <main class="main-content">
-        <!-- Top SIPAG Logo -->
         <header class="top-header">
             <img src="{% static 'images/core/app_logo.png' %}" alt="SIPAG Logo" class="brand-logo">
+            <button type="button" class="btn-add-record" onclick="document.getElementById('sitioModal').classList.add('active')">+ Add Sitio</button>
         </header>
 
         {% if messages %}
@@ -389,71 +113,63 @@
             </div>
         {% endif %}
 
-        <!-- Section 1: Pending Encoders -->
-        <h1 class="section-title">Pending Encoders</h1>
-
+        <!-- Section 1: Pending Encoders (Inner Join User & Encoder) -->
+        <div class="section-row">
+            <h1 class="section-title">Pending Encoders</h1>
+        </div>
         <div class="table-wrap">
             <table class="mgmt-table">
                 <thead>
                     <tr>
                         <th>Encoder Name</th>
-                        <th>Sitio</th>
+                        <th>Email</th>
                         <th>Request Date</th>
+                        <th>Assign Sitio</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% if pending_encoders %}
-                        {% for enc in pending_encoders %}
-                            <tr>
-                                <td>{{ enc.get_full_name|default:enc.username }}</td>
-                                <td>{{ enc.barangay.name|default:"—" }}</td>
-                                <td>{{ enc.date_joined|date:"M d, Y"|default:"—" }}</td>
-                                <td>
-                                    <div class="table-actions">
-                                        <form method="POST" style="display:inline;">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="action" value="accept">
-                                            <input type="hidden" name="user_id" value="{{ enc.pk }}">
-                                            <button type="submit" class="btn-pill-green">Accept</button>
-                                        </form>
-                                        <form method="POST" style="display:inline;">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="action" value="decline">
-                                            <input type="hidden" name="user_id" value="{{ enc.pk }}">
-                                            <button type="submit" class="btn-pill-teal">Decline</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        {% if pending_encoders|length < 4 %}
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                        {% endif %}
-                    {% else %}
-                        <!-- Mockup Initial State -->
+                    {% for enc in pending_encoders %}
                         <tr>
-                            <td>&nbsp;</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ enc.user.get_full_name|default:enc.user.username }}</td>
+                            <td>{{ enc.user.email }}</td>
+                            <td>{{ enc.user.date_joined|date:"M d, Y" }}</td>
+                            <td>
+                                <select form="accept-form-{{ enc.user.pk }}" name="sitio_id" class="inline-select" required>
+                                    <option value="" disabled selected>Select Sitio...</option>
+                                    {% for s in sitios %}
+                                        <option value="{{ s.pk }}">{{ s.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
                             <td>
                                 <div class="table-actions">
-                                    <button type="button" class="btn-pill-green">Accept</button>
-                                    <button type="button" class="btn-pill-teal">Decline</button>
+                                    <form id="accept-form-{{ enc.user.pk }}" method="POST" style="display:inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="accept">
+                                        <input type="hidden" name="user_id" value="{{ enc.user.pk }}">
+                                        <button type="submit" class="btn-pill-green">Accept</button>
+                                    </form>
+                                    <form method="POST" style="display:inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="decline">
+                                        <input type="hidden" name="user_id" value="{{ enc.user.pk }}">
+                                        <button type="submit" class="btn-pill-teal" onclick="return confirm('Decline and remove this encoder request?')">Decline</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                    {% endif %}
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" style="color: #8c9fa3; font-style: italic;">No pending encoder requests at this time.</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
+        {% include 'includes/pagination.html' with page_obj=pending_encoders elided_range=pending_elided_range page_param='pending_page' extra_query=pending_extra_query %}
 
-        <!-- Section 2: Active Users -->
+        <!-- Section 2: Active / Managed Users (Includes Admin themselves) -->
         <h1 class="section-title second-section">Active Users</h1>
 
         <div class="table-wrap">
@@ -462,60 +178,143 @@
                     <tr>
                         <th>User Name</th>
                         <th>Role</th>
+                        <th>Assigned Sitio</th>
                         <th>Status</th>
                         <th>Manage</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% if active_users %}
-                        {% for u in active_users %}
-                            <tr>
-                                <td>{{ u.get_full_name|default:u.username }}</td>
-                                <td>{{ u.type_of_user|default:"User"|title }}</td>
-                                <td><span class="status-badge">Active</span></td>
-                                <td>
-                                    <div class="table-actions">
-                                        <form method="POST" style="display:inline;">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="action" value="deactivate">
-                                            <input type="hidden" name="user_id" value="{{ u.pk }}">
-                                            <button type="submit" class="btn-pill-green">Deactivate</button>
-                                        </form>
-                                        <form method="POST" style="display:inline;">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="action" value="suspend">
-                                            <input type="hidden" name="user_id" value="{{ u.pk }}">
-                                            <button type="submit" class="btn-pill-teal">Suspend</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        {% if active_users|length < 4 %}
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                        {% endif %}
-                    {% else %}
-                        <!-- Mockup Initial State -->
+                    {% for u in managed_users %}
                         <tr>
-                            <td>&nbsp;</td>
-                            <td></td>
-                            <td></td>
                             <td>
-                                <div class="table-actions">
-                                    <button type="button" class="btn-pill-green">Deactivate</button>
-                                    <button type="button" class="btn-pill-teal">Suspend</button>
-                                </div>
+                                {{ u.get_full_name|default:u.username }}
+                                {% if u.pk == request.user.pk %}<em style="font-size:0.8rem;opacity:0.75;">(You)</em>{% endif %}
+                            </td>
+                            <td>{{ u.type_of_user|title }}</td>
+                            <td>{% if u.type_of_user == 'admin' %}All (Barangay){% else %}{{ u.assigned_sitio_name }}{% endif %}</td>
+                            <td>
+                                <span class="status-badge status-{{ u.account_status }}">{{ u.account_status|title }}</span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn-pill-teal"
+                                    onclick="openManageModal(
+                                        '{{ u.pk }}',
+                                        '{{ u.get_full_name|default:u.username|escapejs }}',
+                                        '{{ u.type_of_user }}',
+                                        '{{ u.account_status }}',
+                                        '{{ u.assigned_sitio_id }}'
+                                    )">
+                                    Manage
+                                </button>
                             </td>
                         </tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                    {% endif %}
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" style="color: #8c9fa3; font-style: italic;">No active users found.</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
+        {% include 'includes/pagination.html' with page_obj=managed_users elided_range=users_elided_range page_param='users_page' extra_query=users_extra_query %}
     </main>
+
+    <!-- Manage User Modal (Promote Encoder -> Admin, Change Sitio, Change Status) -->
+    <div class="modal-overlay" id="manageModal">
+        <div class="modal-card">
+            <button type="button" class="modal-close" onclick="closeManageModal()">&times;</button>
+            <h2 class="modal-title">Manage User</h2>
+            <p id="manageUserName" style="text-align:center;font-weight:700;margin-bottom:20px;"></p>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="manage_user">
+                <input type="hidden" name="user_id" id="manage_user_id">
+
+                <div class="form-field">
+                    <label for="manage_role">Role</label>
+                    <select name="role" id="manage_role" class="modal-input" onchange="toggleSitioField()">
+                        <option value="encoder">Encoder</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <div class="form-field" id="manage_sitio_group">
+                    <label for="manage_sitio_id">Assigned Sitio</label>
+                    <select name="sitio_id" id="manage_sitio_id" class="modal-input">
+                        <option value="">Select Sitio...</option>
+                        {% for s in sitios %}
+                            <option value="{{ s.pk }}">{{ s.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="manage_status">Account Status</label>
+                    <select name="account_status" id="manage_status" class="modal-input">
+                        <option value="active">Active</option>
+                        <option value="inactive">Deactivated</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="modal-btn-submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Sitio Modal -->
+    <div class="modal-overlay" id="sitioModal">
+        <div class="modal-card">
+            <button type="button" class="modal-close" onclick="document.getElementById('sitioModal').classList.remove('active')">&times;</button>
+            <h2 class="modal-title">Add New Sitio</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_sitio">
+                <div class="form-field">
+                    <label>Sitio Name</label>
+                    <input type="text" name="sitio_name" class="modal-input" placeholder="e.g. Sitio Proper" required>
+                </div>
+                <button type="submit" class="modal-btn-submit">Create Sitio</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleSitioField() {
+            const role = document.getElementById('manage_role').value;
+            const sitioGroup = document.getElementById('manage_sitio_group');
+            const sitioSelect = document.getElementById('manage_sitio_id');
+            if (role === 'admin') {
+                sitioGroup.style.display = 'none';
+                sitioSelect.required = false;
+            } else {
+                sitioGroup.style.display = 'block';
+                sitioSelect.required = true;
+            }
+        }
+
+        function openManageModal(userId, fullName, role, status, sitioId) {
+            document.getElementById('manage_user_id').value = userId;
+            document.getElementById('manageUserName').textContent = fullName;
+            document.getElementById('manage_role').value = role;
+            document.getElementById('manage_status').value = status === 'pending' ? 'active' : status;
+            document.getElementById('manage_sitio_id').value = sitioId || '';
+            toggleSitioField();
+            document.getElementById('manageModal').classList.add('active');
+        }
+
+        function closeManageModal() {
+            document.getElementById('manageModal').classList.remove('active');
+        }
+
+        document.getElementById('manageModal').addEventListener('click', function(e) {
+            if (e.target === this) closeManageModal();
+        });
+        document.getElementById('sitioModal').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('active');
+        });
+    </script>
 
 </body>
 </html>

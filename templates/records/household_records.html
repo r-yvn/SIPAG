@@ -5,506 +5,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Household Records - SIPAG</title>
-    <!-- Google Fonts: Montserrat & Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600..900;1,600..900&family=Poppins:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #faf9f5; min-height: 100vh; display: flex; color: #184f59; overflow-x: hidden; }
+        .sidebar { width: 260px; min-width: 260px; background-color: #184f59; color: #fff; padding: 40px 0 35px 0; display: flex; flex-direction: column; justify-content: space-between; min-height: 100vh; position: fixed; left: 0; top: 0; bottom: 0; z-index: 100; }
+        .sidebar-header { padding: 0 32px 36px 32px; }
+        .welcome-label { font-size: 1.15rem; font-weight: 400; color: rgba(255,255,255,0.9); margin-bottom: 4px; }
+        .user-name { font-family: 'Montserrat', sans-serif; font-size: 1.7rem; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 4px; letter-spacing: -0.3px; }
+        .user-role { font-size: 1rem; font-style: italic; color: rgba(255,255,255,0.82); }
+        .nav-menu { list-style: none; display: flex; flex-direction: column; width: 100%; }
+        .nav-item { width: 100%; }
+        .nav-link { display: flex; align-items: center; gap: 16px; padding: 14px 32px; color: #fff; text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: background-color 0.15s ease, padding-left 0.15s ease; }
+        .nav-link:hover { background-color: rgba(0,0,0,0.12); padding-left: 36px; }
+        .nav-link.active { background-color: rgba(0,0,0,0.22); font-weight: 700; }
+        .nav-icon { width: 22px; height: 22px; object-fit: contain; filter: brightness(0) invert(1); }
+        .sidebar-bottom { padding: 0 32px; }
+        .logout-link { display: flex; align-items: center; gap: 14px; color: #fff; text-decoration: none; font-size: 0.98rem; font-weight: 600; }
 
-        body {
-            background-color: #faf9f5;
-            min-height: 100vh;
-            display: flex;
-            color: #184f59;
-            overflow-x: hidden;
-        }
+        .main-content { margin-left: 260px; flex: 1; padding: 35px 50px 45px 50px; display: flex; flex-direction: column; }
+        .top-header { margin-bottom: 25px; }
+        .brand-logo { height: 48px; width: auto; object-fit: contain; }
 
-        /* Fixed Left Sidebar */
-        .sidebar {
-            width: 260px;
-            min-width: 260px;
-            background-color: #184f59;
-            color: #ffffff;
-            padding: 40px 0 35px 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            z-index: 100;
-        }
+        .page-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .page-title { font-family: 'Montserrat', sans-serif; font-size: 1.65rem; font-weight: 800; color: #184f59; }
+        .search-input { width: 240px; height: 38px; border: 1.5px solid #184f59; border-radius: 8px; padding: 0 16px; font-size: 0.9rem; color: #184f59; outline: none; background-color: #fff; }
 
-        .sidebar-header {
-            padding: 0 32px 36px 32px;
-        }
+        .table-wrap { width: 100%; background-color: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(24,79,89,0.08); border: 1.5px solid #184f59; margin-bottom: 24px; }
+        .records-table { width: 100%; border-collapse: collapse; text-align: center; }
+        .records-table th { background-color: #184f59; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; padding: 14px 16px; border-right: 1.5px solid rgba(255,255,255,0.2); }
+        .records-table th:last-child { border-right: none; }
+        .records-table td { height: 48px; padding: 8px 14px; font-size: 0.9rem; color: #222; border-right: 1px solid #d9e3e7; border-bottom: 1px solid #d9e3e7; background-color: #fff; }
+        .records-table td:last-child { border-right: none; }
+        .records-table tbody tr:last-child td { border-bottom: none; }
 
-        .welcome-label {
-            font-size: 1.15rem;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 4px;
-        }
+        .table-actions { display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-pill-green { background-color: #82d134; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 800; padding: 6px 18px; border-radius: 8px; border: none; cursor: pointer; }
+        .btn-pill-teal { background-color: #184f59; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 800; padding: 6px 18px; border-radius: 8px; border: none; cursor: pointer; }
+        .bottom-action-row { display: flex; justify-content: flex-end; margin-top: 10px; }
+        .btn-add-record { background-color: #184f59; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 700; padding: 12px 28px; border-radius: 8px; border: none; cursor: pointer; }
 
-        .user-name {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.7rem;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.2;
-            margin-bottom: 4px;
-            letter-spacing: -0.3px;
-        }
+        .messages-container { margin-bottom: 16px; }
+        .alert { padding: 12px 18px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 8px; }
+        .alert-success { background-color: #eaf8dd; color: #2e6616; border: 1px solid #c4ebb0; }
+        .alert-warning, .alert-error { background-color: #fde8e8; color: #9b1c1c; border: 1px solid #f8b4b4; }
 
-        .user-role {
-            font-size: 1rem;
-            font-style: italic;
-            color: rgba(255, 255, 255, 0.82);
-            font-weight: 400;
-        }
+        /* Modals */
+        .modal-overlay { position: fixed; inset: 0; background-color: rgba(0,0,0,0.45); backdrop-filter: blur(2px); z-index: 999; display: none; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-card { background-color: #fff; border-radius: 28px; padding: 38px 44px; width: 92%; max-width: 740px; max-height: 92vh; overflow-y: auto; box-shadow: 0 16px 45px rgba(0,0,0,0.25); position: relative; }
+        .modal-close { position: absolute; top: 22px; right: 26px; background: none; border: none; font-size: 1.8rem; color: #184f59; cursor: pointer; }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.7rem; font-weight: 800; color: #184f59; text-align: center; margin-bottom: 24px; }
 
-        .nav-menu {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
+        .modal-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+        .input-wrap { position: relative; display: flex; align-items: center; width: 100%; }
+        .req-star { position: absolute; left: 12px; top: 13px; color: #e53e3e; font-weight: 700; pointer-events: none; }
+        .modal-input { width: 100%; height: 46px; border: 1.5px solid #184f59; border-radius: 10px; padding: 0 14px 0 24px; font-size: 0.9rem; color: #184f59; outline: none; background-color: #fff; }
+        .modal-input.no-star { padding-left: 14px; }
+        .modal-actions { display: flex; justify-content: center; margin-top: 22px; }
+        .modal-btn-submit { background-color: #184f59; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; border-radius: 10px; padding: 12px 40px; border: none; cursor: pointer; }
 
-        .nav-item {
-            width: 100%;
-        }
+        /* Resident Picker */
+        .picker-box { border: 1.5px solid #d9e3e7; border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+        .picker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 10px; }
+        .picker-list { max-height: 160px; overflow-y: auto; border-top: 1px solid #eef2f4; padding-top: 8px; }
+        .picker-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 4px; border-bottom: 1px solid #f2f5f7; font-size: 0.88rem; }
+        .chips-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+        .member-chip { display: inline-flex; align-items: center; gap: 8px; background: #eaf8dd; color: #2e6616; padding: 5px 12px; border-radius: 18px; font-size: 0.84rem; font-weight: 600; }
+        .member-chip button { background: none; border: none; color: #c81e1e; font-weight: 800; cursor: pointer; }
 
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 32px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: background-color 0.15s ease, padding-left 0.15s ease;
-        }
-
-        .nav-link:hover {
-            background-color: rgba(0, 0, 0, 0.12);
-            padding-left: 36px;
-        }
-
-        .nav-link.active {
-            background-color: rgba(0, 0, 0, 0.22);
-            font-weight: 700;
-        }
-
-        .nav-icon {
-            width: 22px;
-            height: 22px;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-        }
-
-        .sidebar-bottom {
-            padding: 0 32px;
-        }
-
-        .logout-link {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.98rem;
-            font-weight: 600;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-        }
-
-        .logout-link:hover {
-            opacity: 0.85;
-            transform: translateX(3px);
-        }
-
-        /* Main Workspace Container */
-        .main-content {
-            margin-left: 260px;
-            flex: 1;
-            padding: 35px 50px 45px 50px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .top-header {
-            margin-bottom: 25px;
-        }
-
-        .brand-logo {
-            height: 48px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        /* Title and Search Header Bar */
-        .page-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .page-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.65rem;
-            font-weight: 800;
-            color: #184f59;
-            letter-spacing: -0.3px;
-        }
-
-        .search-box {
-            position: relative;
-        }
-
-        .search-input {
-            width: 240px;
-            height: 38px;
-            border: 1.5px solid #184f59;
-            border-radius: 8px;
-            padding: 0 16px;
-            font-family: 'Poppins', sans-serif;
-            font-style: italic;
-            font-size: 0.9rem;
-            color: #184f59;
-            outline: none;
-            background-color: #ffffff;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .search-input::placeholder {
-            color: #8c9fa3;
-            font-style: italic;
-        }
-
-        .search-input:focus {
-            border-color: #133f47;
-            box-shadow: 0 0 6px rgba(24, 79, 89, 0.25);
-        }
-
-        /* Table Styling */
-        .table-wrap {
-            width: 100%;
-            background-color: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(24, 79, 89, 0.08);
-            border: 1.5px solid #184f59;
-            margin-bottom: 24px;
-        }
-
-        .records-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: center;
-        }
-
-        .records-table th {
-            background-color: #184f59;
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.92rem;
-            font-weight: 700;
-            padding: 14px 16px;
-            border-right: 1.5px solid rgba(255, 255, 255, 0.2);
-            letter-spacing: -0.2px;
-        }
-
-        .records-table th:last-child {
-            border-right: none;
-        }
-
-        .records-table td {
-            height: 48px;
-            padding: 8px 14px;
-            font-size: 0.9rem;
-            color: #222222;
-            border-right: 1px solid #d9e3e7;
-            border-bottom: 1px solid #d9e3e7;
-            background-color: #ffffff;
-        }
-
-        .records-table td:last-child {
-            border-right: none;
-        }
-
-        .records-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .records-table tbody tr:hover td {
-            background-color: #f7fafc;
-        }
-
-        /* Action Buttons */
-        .table-actions {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-pill-green {
-            background-color: #82d134;
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 800;
-            padding: 6px 18px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: background-color 0.15s ease, transform 0.15s ease;
-        }
-
-        .btn-pill-green:hover {
-            background-color: #72bd2c;
-            transform: translateY(-1px);
-        }
-
-        .btn-pill-teal {
-            background-color: #184f59;
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 800;
-            padding: 6px 18px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: background-color 0.15s ease, transform 0.15s ease;
-        }
-
-        .btn-pill-teal:hover {
-            background-color: #123d45;
-            transform: translateY(-1px);
-        }
-
-        /* Bottom Action Button */
-        .bottom-action-row {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
-        }
-
-        .btn-add-record {
-            background-color: #184f59;
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 700;
-            padding: 12px 28px;
-            border-radius: 8px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 10px rgba(24, 79, 89, 0.2);
-        }
-
-        .btn-add-record:hover {
-            background-color: #133f47;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 14px rgba(24, 79, 89, 0.3);
-        }
-
-        /* Modal Styles (Matches media_1795268249334_d946ddca.png) */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(2px);
-            z-index: 999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-card {
-            background-color: #ffffff;
-            border-radius: 28px;
-            padding: 44px 50px;
-            width: 92%;
-            max-width: 680px;
-            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.25);
-            position: relative;
-            animation: modalFadeIn 0.2s ease;
-        }
-
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 24px;
-            right: 28px;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            color: #184f59;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .modal-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.85rem;
-            font-weight: 800;
-            color: #184f59;
-            text-align: center;
-            margin-bottom: 30px;
-            letter-spacing: -0.3px;
-        }
-
-        /* Form Layout */
-        .modal-row-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
-        .modal-row-1 {
-            width: 100%;
-            margin-bottom: 28px;
-        }
-
-        .input-wrap {
-            position: relative;
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
-        .req-star {
-            position: absolute;
-            left: 14px;
-            top: 13px;
-            color: #e53e3e;
-            font-weight: 700;
-            font-size: 1.05rem;
-            pointer-events: none;
-        }
-
-        .modal-input {
-            width: 100%;
-            height: 50px;
-            border: 1.5px solid #184f59;
-            border-radius: 10px;
-            padding: 0 14px;
-            padding-left: 26px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.92rem;
-            color: #184f59;
-            outline: none;
-            background-color: #ffffff;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .modal-input.no-star {
-            padding-left: 16px;
-        }
-
-        .modal-input::placeholder {
-            color: #8c9fa3;
-            font-style: italic;
-        }
-
-        .modal-input:focus {
-            border-color: #133f47;
-            box-shadow: 0 0 6px rgba(24, 79, 89, 0.25);
-        }
-
-        select.modal-input {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0 0%2024%2024'%20fill='none'%20stroke='%23184f59'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpolyline%20points='6%209%2012%2015%2018%209'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            background-size: 16px;
-            padding-right: 36px;
-            cursor: pointer;
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: center;
-        }
-
-        .modal-btn-submit {
-            background-color: #184f59;
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 700;
-            border-radius: 10px;
-            padding: 14px 44px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 12px rgba(24, 79, 89, 0.25);
-        }
-
-        .modal-btn-submit:hover {
-            background-color: #133f47;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(24, 79, 89, 0.35);
-        }
+        .view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; margin-bottom: 18px; }
+        .view-label { font-size: 0.78rem; color: #8c9fa3; font-weight: 600; text-transform: uppercase; }
+        .view-value { font-size: 0.96rem; font-weight: 600; color: #184f59; }
 
         @media (max-width: 768px) {
-            .sidebar {
-                position: relative;
-                width: 100%;
-                min-height: auto;
-                height: auto;
-            }
-            .main-content {
-                margin-left: 0;
-                padding: 24px 20px;
-            }
-            .table-wrap {
-                overflow-x: auto;
-            }
-            .modal-row-3 {
-                grid-template-columns: 1fr;
-            }
-            .modal-card {
-                padding: 30px 24px;
-            }
+            .sidebar { position: relative; width: 100%; min-height: auto; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+            .table-wrap { overflow-x: auto; }
+            .modal-row-3, .view-grid { grid-template-columns: 1fr; }
         }
     </style>
+    {% include 'includes/theme_styles.html' %}
 </head>
-<body>
+<body data-theme="{{ user_skin|default:'default' }}">
 
-    <!-- Fixed Left Sidebar (Dynamic: Admin vs Encoder) -->
     <aside class="sidebar">
         <div>
             <div class="sidebar-header">
@@ -512,76 +98,54 @@
                 <h2 class="user-name">{{ request.user.first_name|default:request.user.username }} {{ request.user.last_name }}</h2>
                 <p class="user-role">{% if is_admin %}Admin{% else %}Encoder{% endif %}</p>
             </div>
-
             <nav>
                 <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="{% url 'home' %}" class="nav-link">
-                            <img src="{% static 'images/core/dashboard_logo.png' %}" alt="Dashboard" class="nav-icon">
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
+                    <li class="nav-item"><a href="{% url 'home' %}" class="nav-link"><img src="{% static 'images/core/dashboard_logo.png' %}" alt="" class="nav-icon"><span>Dashboard</span></a></li>
                     {% if is_admin %}
-                    <li class="nav-item">
-                        <a href="{% url 'records:admin_management' %}" class="nav-link">
-                            <img src="{% static 'images/core/management_logo.png' %}" alt="Management" class="nav-icon">
-                            <span>Management</span>
-                        </a>
-                    </li>
+                    <li class="nav-item"><a href="{% url 'records:admin_management' %}" class="nav-link"><img src="{% static 'images/core/management_logo.png' %}" alt="" class="nav-icon"><span>Management</span></a></li>
                     {% endif %}
-                    <li class="nav-item">
-                        <a href="{% url 'records:resident_records' %}" class="nav-link">
-                            <img src="{% static 'images/core/resident_records_logo.png' %}" alt="Resident Records" class="nav-icon">
-                            <span>Resident Records</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'records:household_records' %}" class="nav-link active">
-                            <img src="{% static 'images/core/household_records_logo.png' %}" alt="Household Records" class="nav-icon">
-                            <span>Household Records</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'user_settings' %}" class="nav-link">
-                            <img src="{% static 'images/core/settings_logo.png' %}" alt="Settings" class="nav-icon">
-                            <span>Settings</span>
-                        </a>
-                    </li>
+                    <li class="nav-item"><a href="{% url 'records:resident_records' %}" class="nav-link"><img src="{% static 'images/core/resident_records_logo.png' %}" alt="" class="nav-icon"><span>Resident Records</span></a></li>
+                    <li class="nav-item"><a href="{% url 'records:household_records' %}" class="nav-link active"><img src="{% static 'images/core/household_records_logo.png' %}" alt="" class="nav-icon"><span>Household Records</span></a></li>
+                    <li class="nav-item"><a href="{% url 'user_settings' %}" class="nav-link"><img src="{% static 'images/core/settings_logo.png' %}" alt="" class="nav-icon"><span>Settings</span></a></li>
                 </ul>
             </nav>
         </div>
-
         <div class="sidebar-bottom">
-            <a href="{% url 'logout' %}" class="logout-link">
-                <img src="{% static 'images/core/logout_logo.png' %}" alt="Logout" class="nav-icon">
-                <span>Logout</span>
-            </a>
+            <a href="{% url 'logout' %}" class="logout-link"><img src="{% static 'images/core/logout_logo.png' %}" alt="" class="nav-icon"><span>Logout</span></a>
         </div>
     </aside>
 
-    <!-- Main Workspace -->
     <main class="main-content">
-        <!-- Top SIPAG Logo -->
         <header class="top-header">
             <img src="{% static 'images/core/app_logo.png' %}" alt="SIPAG Logo" class="brand-logo">
         </header>
 
-        <!-- Page Header Row: Title & Search -->
-        <div class="page-header-row">
-            <h1 class="page-title">Household Records</h1>
-            <div class="search-box">
-                <form method="GET">
-                    <input type="text" name="q" value="{{ q }}" placeholder="Search" class="search-input">
-                </form>
+        {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
             </div>
+        {% endif %}
+
+        <div class="page-header-row">
+            <h1 class="page-title">
+                Household Records
+                {% if not is_admin and assigned_sitio %}
+                    <span style="font-size:0.95rem;font-weight:500;opacity:0.75;">({{ assigned_sitio.name }})</span>
+                {% endif %}
+            </h1>
+            <form method="GET">
+                <input type="text" name="q" value="{{ q }}" placeholder="Search" class="search-input">
+            </form>
         </div>
 
-        <!-- Table Container -->
         <div class="table-wrap">
             <table class="records-table">
                 <thead>
                     <tr>
                         <th>House Number</th>
+                        <th>Head of Household</th>
                         <th>Street</th>
                         <th>Sitio</th>
                         <th>Total Members</th>
@@ -589,116 +153,285 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% if households %}
-                        {% for h in households %}
-                            <tr>
-                                <td>{{ h.house_number }}</td>
-                                <td>{{ h.street|default:"—" }}</td>
-                                <td>{{ h.sitio.name|default:"—" }}</td>
-                                <td>{{ h.total_members|default:"0" }}</td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button type="button" class="btn-pill-green" onclick="alert('Viewing Household #{{ h.house_number }}')">View Record</button>
-                                        <button type="button" class="btn-pill-teal" onclick="alert('Editing Household #{{ h.house_number }}')">Edit Record</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        {% if households|length < 8 %}
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                        {% endif %}
-                    {% else %}
-                        <!-- Mockup Initial State -->
+                    {% for h in households %}
                         <tr>
-                            <td>&nbsp;</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ h.house_number }}</td>
+                            <td>{% if h.head_of_household %}{{ h.head_of_household.first_name }} {{ h.head_of_household.last_name }}{% else %}Unassigned{% endif %}</td>
+                            <td>{{ h.street|default:"—" }}</td>
+                            <td>{{ h.sitio.name|default:"—" }}</td>
+                            <td>{{ h.total_members|default:"0" }}</td>
                             <td>
                                 <div class="table-actions">
-                                    <button type="button" class="btn-pill-green">View Record</button>
-                                    <button type="button" class="btn-pill-teal">Edit Record</button>
+                                    <button type="button" class="btn-pill-green"
+                                        onclick="openViewHousehold(this)"
+                                        data-house="{{ h.house_number }}"
+                                        data-street="{{ h.street|default:'—' }}"
+                                        data-sitio="{{ h.sitio.name|default:'—' }}"
+                                        data-head="{% if h.head_of_household %}{{ h.head_of_household.first_name }} {{ h.head_of_household.last_name }}{% else %}None assigned{% endif %}"
+                                        data-members='[{% for m in h.household.all %}{"id":{{ m.resident_id }},"name":"{{ m.first_name|escapejs }} {{ m.last_name|escapejs }}"}{% if not forloop.last %},{% endif %}{% endfor %}]'
+                                        data-head-id="{{ h.head_of_household_id|default:'' }}">
+                                        View Record
+                                    </button>
+                                    <button type="button" class="btn-pill-teal"
+                                        onclick="openEditHousehold(this)"
+                                        data-id="{{ h.household_id }}"
+                                        data-house="{{ h.house_number }}"
+                                        data-street="{{ h.street|default:'' }}"
+                                        data-sitio-id="{{ h.sitio_id }}"
+                                        data-head-id="{{ h.head_of_household_id|default:'' }}"
+                                        data-members='[{% for m in h.household.all %}{"id":{{ m.resident_id }},"name":"{{ m.first_name|escapejs }} {{ m.last_name|escapejs }}"}{% if not forloop.last %},{% endif %}{% endfor %}]'>
+                                        Edit Record
+                                    </button>
                                 </div>
                             </td>
                         </tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                    {% endif %}
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" style="color: #8c9fa3; font-style: italic;">No household records found.</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
-
-        <!-- Bottom Action Button: + Household Record -->
+         {% include 'includes/pagination.html' with page_obj=households elided_range=elided_range page_param='page' extra_query=extra_query %}
         <div class="bottom-action-row">
-            <button type="button" class="btn-add-record" onclick="openHouseholdModal()">
-                <span>+ Household Record</span>
-            </button>
+            <button type="button" class="btn-add-record" onclick="openAddHousehold()">+ Household Record</button>
         </div>
     </main>
 
-    <!-- Add Household Record Modal (Mockup: media_1795268249334_d946ddca.png) -->
+    <!-- Add / Edit Household Floating Modal -->
     <div class="modal-overlay" id="householdModal">
         <div class="modal-card">
             <button type="button" class="modal-close" onclick="closeHouseholdModal()">&times;</button>
-            <h2 class="modal-title">Household Record</h2>
+            <h2 class="modal-title" id="hhModalTitle">Add Household Record</h2>
 
-            <form method="POST">
+            <form method="POST" id="householdForm">
                 {% csrf_token %}
+                <input type="hidden" name="action" id="hh_action" value="create">
+                <input type="hidden" name="household_id" id="hh_id" value="">
+
                 <div class="modal-row-3">
+                    <div class="input-wrap"><span class="req-star">*</span><input type="text" name="house_number" id="hh_number" placeholder="House Number" class="modal-input" required></div>
+                    <div class="input-wrap"><span class="req-star">*</span><input type="text" name="street" id="hh_street" placeholder="Street" class="modal-input" required></div>
                     <div class="input-wrap">
-                        <span class="req-star">*</span>
-                        <input type="text" name="house_number" placeholder="House Number" class="modal-input" required>
-                    </div>
-                    <div class="input-wrap">
-                        <span class="req-star">*</span>
-                        <input type="text" name="street" placeholder="Street" class="modal-input" required>
-                    </div>
-                    <div class="input-wrap">
-                        <span class="req-star">*</span>
-                        <select name="sitio_id" class="modal-input" required>
-                            <option value="" disabled selected>Sitio</option>
-                            {% for s in sitios %}
-                                <option value="{{ s.pk }}">{{ s.name }}</option>
-                            {% endfor %}
-                        </select>
+                        {% if is_admin %}
+                            <span class="req-star">*</span>
+                            <select name="sitio_id" id="hh_sitio_id" class="modal-input" required>
+                                <option value="" disabled selected>Sitio</option>
+                                {% for s in sitios %}
+                                    <option value="{{ s.pk }}">{{ s.name }}</option>
+                                {% endfor %}
+                            </select>
+                        {% else %}
+                            <input type="hidden" name="sitio_id" id="hh_sitio_id" value="{{ assigned_sitio.pk|default:'' }}">
+                            <input type="text" class="modal-input no-star" value="Sitio: {{ assigned_sitio.name|default:'Unassigned' }}" readonly>
+                        {% endif %}
                     </div>
                 </div>
 
-                <div class="modal-row-1">
-                    <div class="input-wrap">
-                        <input type="text" name="residents" placeholder="Add Residents..." class="modal-input no-star">
+                <!-- Selected Residents Chips -->
+                <div style="margin-bottom:8px;font-size:0.85rem;font-weight:700;">Household Members</div>
+                <div class="chips-wrap" id="selectedMembersWrap"></div>
+                <div id="hiddenMemberInputs"></div>
+
+                <!-- Head of Household Selector -->
+                <div style="margin-bottom:14px;">
+                    <select name="head_of_household_id" id="hh_head_select" class="modal-input no-star">
+                        <option value="">Head of Household (optional)</option>
+                    </select>
+                </div>
+
+                <!-- Filter & Click-to-Add Residents Matching Address -->
+                <div class="picker-box">
+                    <div class="picker-header">
+                        <input type="text" id="hhResidentFilter" class="modal-input no-star" style="height:38px;" placeholder="Filter residents by address or name...">
+                        <button type="button" class="btn-pill-teal" onclick="fetchMatchingResidents(true)">Match Address</button>
+                    </div>
+                    <div class="picker-list" id="residentSearchResults">
+                        <div style="font-size:0.84rem;color:#8c9fa3;font-style:italic;">Type an address or click "Match Address" to filter unassigned residents.</div>
                     </div>
                 </div>
 
                 <div class="modal-actions">
-                    <button type="submit" class="modal-btn-submit">+ Add New Household</button>
+                    <button type="submit" class="modal-btn-submit" id="hhSubmitBtn">+ Add New Household</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- View Household Floating Modal -->
+    <div class="modal-overlay" id="viewHouseholdModal">
+        <div class="modal-card" style="max-width:600px;">
+            <button type="button" class="modal-close" onclick="document.getElementById('viewHouseholdModal').classList.remove('active')">&times;</button>
+            <h2 class="modal-title">Household Details</h2>
+            <div class="view-grid">
+                <div><div class="view-label">House Number</div><div class="view-value" id="vh_house"></div></div>
+                <div><div class="view-label">Street</div><div class="view-value" id="vh_street"></div></div>
+                <div><div class="view-label">Sitio</div><div class="view-value" id="vh_sitio"></div></div>
+                <div><div class="view-label">Head of Household</div><div class="view-value" id="vh_head"></div></div>
+            </div>
+            <div class="view-label" style="margin-bottom:8px;">Residents in this Household</div>
+            <ul id="vh_members" style="padding-left:20px;font-size:0.92rem;"></ul>
+        </div>
+    </div>
+
     <script>
-        function openHouseholdModal() {
+        let selectedMembers = []; // [{id, name}]
+
+        function renderSelectedMembers(preferredHeadId = '') {
+            const wrap = document.getElementById('selectedMembersWrap');
+            const hidden = document.getElementById('hiddenMemberInputs');
+            const headSelect = document.getElementById('hh_head_select');
+            const currentHead = preferredHeadId || headSelect.value;
+
+            wrap.innerHTML = '';
+            hidden.innerHTML = '';
+            headSelect.innerHTML = '<option value="">Head of Household (optional)</option>';
+
+            if (selectedMembers.length === 0) {
+                wrap.innerHTML = '<span style="font-size:0.84rem;color:#8c9fa3;font-style:italic;">No residents added yet (empty lot / new home allowed).</span>';
+            }
+
+            selectedMembers.forEach(m => {
+                const chip = document.createElement('span');
+                chip.className = 'member-chip';
+                chip.innerHTML = `${m.name} <button type="button" onclick="removeMember(${m.id})">&times;</button>`;
+                wrap.appendChild(chip);
+
+                const inp = document.createElement('input');
+                inp.type = 'hidden';
+                inp.name = 'resident_ids';
+                inp.value = m.id;
+                hidden.appendChild(inp);
+
+                const opt = document.createElement('option');
+                opt.value = m.id;
+                opt.textContent = m.name;
+                if (String(m.id) === String(currentHead)) opt.selected = true;
+                headSelect.appendChild(opt);
+            });
+        }
+
+        function addMember(id, name) {
+            if (!selectedMembers.some(m => Number(m.id) === Number(id))) {
+                selectedMembers.push({ id: Number(id), name });
+                renderSelectedMembers();
+                fetchMatchingResidents(false);
+            }
+        }
+
+        function removeMember(id) {
+            selectedMembers = selectedMembers.filter(m => Number(m.id) !== Number(id));
+            renderSelectedMembers();
+            fetchMatchingResidents(false);
+        }
+
+        function fetchMatchingResidents(useHouseFields) {
+            const filterInput = document.getElementById('hhResidentFilter');
+            if (useHouseFields) {
+                const combined = [document.getElementById('hh_number').value.trim(), document.getElementById('hh_street').value.trim()]
+                    .filter(Boolean).join(' ');
+                filterInput.value = combined;
+            }
+            const q = filterInput.value.trim();
+            const sitioId = document.getElementById('hh_sitio_id').value || '';
+            const hhId = document.getElementById('hh_id').value || '';
+
+            const url = `{% url 'records:search_residents_api' %}?q=${encodeURIComponent(q)}&sitio_id=${encodeURIComponent(sitioId)}&household_id=${encodeURIComponent(hhId)}`;
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    const list = document.getElementById('residentSearchResults');
+                    list.innerHTML = '';
+                    const available = (data.results || []).filter(r => !selectedMembers.some(m => Number(m.id) === Number(r.id)));
+                    if (available.length === 0) {
+                        list.innerHTML = '<div style="font-size:0.84rem;color:#8c9fa3;font-style:italic;">No matching unassigned residents found.</div>';
+                        return;
+                    }
+                    available.forEach(r => {
+                        const row = document.createElement('div');
+                        row.className = 'picker-row';
+                        row.innerHTML = `<span><strong>${r.full_name}</strong> — <small>${r.address} (${r.sitio_name})</small></span>`;
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'btn-pill-green';
+                        btn.textContent = '+ Add';
+                        btn.onclick = () => addMember(r.id, r.full_name);
+                        row.appendChild(btn);
+                        list.appendChild(row);
+                    });
+                });
+        }
+
+        document.getElementById('hhResidentFilter').addEventListener('input', () => fetchMatchingResidents(false));
+        document.getElementById('hh_number').addEventListener('blur', () => fetchMatchingResidents(true));
+        document.getElementById('hh_street').addEventListener('blur', () => fetchMatchingResidents(true));
+
+        function openAddHousehold() {
+            document.getElementById('householdForm').reset();
+            document.getElementById('hh_action').value = 'create';
+            document.getElementById('hh_id').value = '';
+            document.getElementById('hhModalTitle').textContent = 'Add Household Record';
+            document.getElementById('hhSubmitBtn').textContent = '+ Add New Household';
+            selectedMembers = [];
+            renderSelectedMembers();
+            fetchMatchingResidents(false);
             document.getElementById('householdModal').classList.add('active');
+        }
+
+        function openEditHousehold(btn) {
+            document.getElementById('hh_action').value = 'edit';
+            document.getElementById('hh_id').value = btn.dataset.id;
+            document.getElementById('hh_number').value = btn.dataset.house;
+            document.getElementById('hh_street').value = btn.dataset.street;
+            document.getElementById('hh_sitio_id').value = btn.dataset.sitioId;
+            selectedMembers = JSON.parse(btn.dataset.members || '[]');
+            renderSelectedMembers(btn.dataset.headId);
+            document.getElementById('hhModalTitle').textContent = 'Edit Household Record';
+            document.getElementById('hhSubmitBtn').textContent = 'Save Changes';
+            fetchMatchingResidents(true);
+            document.getElementById('householdModal').classList.add('active');
+        }
+
+        function openViewHousehold(btn) {
+            document.getElementById('vh_house').textContent = btn.dataset.house;
+            document.getElementById('vh_street').textContent = btn.dataset.street;
+            document.getElementById('vh_sitio').textContent = btn.dataset.sitio;
+            document.getElementById('vh_head').textContent = btn.dataset.head;
+            const ul = document.getElementById('vh_members');
+            ul.innerHTML = '';
+            
+            const headId = btn.dataset.headId;
+            members.forEach(m => {
+                const li = document.createElement('li');
+                li.innerHTML = String(m.id) === String(headId)
+                    ? `<strong>${m.name}</strong> <span style="font-size:0.78rem;background:#eaf8dd;color:#2e6616;padding:2px 8px;border-radius:10px;font-weight:700;">Head</span>`
+                    : m.name;
+                ul.appendChild(li);
+            });
+
+            const members = JSON.parse(btn.dataset.members || '[]');
+            if (members.length === 0) {
+                ul.innerHTML = '<li style="color:#8c9fa3;font-style:italic;">No residents currently assigned.</li>';
+            } else {
+                members.forEach(m => {
+                    const li = document.createElement('li');
+                    li.textContent = m.name;
+                    ul.appendChild(li);
+                });
+            }
+            document.getElementById('viewHouseholdModal').classList.add('active');
         }
 
         function closeHouseholdModal() {
             document.getElementById('householdModal').classList.remove('active');
         }
 
-        // Close when clicking overlay backdrop
         document.getElementById('householdModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeHouseholdModal();
-            }
+            if (e.target === this) closeHouseholdModal();
+        });
+        document.getElementById('viewHouseholdModal').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('active');
         });
     </script>
 

@@ -310,8 +310,9 @@
             }
         }
     </style>
+    {% include 'includes/theme_styles.html' %}
 </head>
-<body>
+<body data-theme="{{ user_skin|default:'default' }}">
 
     <!-- Fixed Left Sidebar -->
     <aside class="sidebar">
@@ -374,52 +375,60 @@
         </header>
 
         <!-- Section Title -->
-        <h1 class="section-title">Recent Actions</h1>
+       <!-- Section Header with Current Week Range & Action Type Filter -->
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+            <div>
+                <h1 class="section-title" style="margin-bottom:4px;">Recent Actions</h1>
+                <p style="font-size:0.86rem;opacity:0.8;">
+                    Current Week: {{ week_start_date|date:"M d" }} – {{ week_end_date|date:"M d, Y" }}
+                </p>
+            </div>
+            <form method="GET" style="display:flex;align-items:center;gap:10px;">
+                <select name="action_type" onchange="this.form.submit()"
+                        class="search-input" style="height:38px;border:1.5px solid #184f59;border-radius:8px;padding:0 12px;font-weight:600;font-size:0.86rem;">
+                    <option value="">All Action Types</option>
+                    {% for code, label in action_types %}
+                        <option value="{{ code }}" {% if selected_action_type == code %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
 
         <!-- Admin Layout: Table on Left, Stat Column on Right -->
         <div class="admin-dashboard-layout">
-            <!-- Left Side: Recent Actions Audit Table -->
-            <div class="table-wrap">
-                <table class="actions-table">
-                    <thead>
-                        <tr>
-                            <th>Timestamp</th>
-                            <th>User</th>
-                            <th>Role</th>
-                            <th>Action Performed</th>
-                            <th>Sitio</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if recent_actions %}
-                            {% for action in recent_actions %}
+            <div>
+                <div class="table-wrap">
+                    <table class="actions-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>User</th>
+                                <th>Role</th>
+                                <th>Action Performed</th>
+                                <th>Sitio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for action in actions_page %}
                                 <tr>
-                                    <td>{{ action.timestamp }}</td>
-                                    <td>{{ action.user }}</td>
+                                    <td>{{ action.timestamp|date:"M d, Y H:i" }}</td>
+                                    <td>{{ action.user_name }}</td>
                                     <td>{{ action.role }}</td>
                                     <td>{{ action.action_performed }}</td>
-                                    <td>{{ action.sitio }}</td>
+                                    <td>{{ action.sitio.name|default:"—" }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5" style="color:#8c9fa3;font-style:italic;">
+                                        No recorded actions for this week yet.
+                                    </td>
                                 </tr>
                             {% endfor %}
-                            {# If fewer than 8 rows, fill empty rows to preserve height #}
-                            {% if recent_actions|length < 8 %}
-                                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                            {% endif %}
-                        {% else %}
-                            <!-- Mockup Empty Grid Rows -->
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-                        {% endif %}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+
+                {% include 'includes/pagination.html' with page_obj=actions_page elided_range=actions_elided_range page_param='page' extra_query=extra_query %}
             </div>
 
             <!-- Right Side: 4 Vertical Stat Cards -->

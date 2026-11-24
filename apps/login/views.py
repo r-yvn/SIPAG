@@ -9,7 +9,6 @@ User = get_user_model()
 @never_cache
 @ensure_csrf_cookie
 def login_view(request):
-    # If already logged in, redirect directly to home
     if request.user.is_authenticated:
         return redirect('home')
 
@@ -17,15 +16,24 @@ def login_view(request):
         login_id = request.POST.get('username', '').strip()
         password = request.POST.get('password', '')
 
-        # Check if user exists by username or email
         user_obj = User.objects.filter(username=login_id).first()
-        if not user_obj and '@' in login_id:
-            user_obj = User.objects.filter(email=login_id).first()
+        if not user_obj:
+            user_obj = User.objects.filter(email__iexact=login_id).first()
 
         if not user_obj:
             return render(request, 'login/login.html', {
                 'error_message': 'User does not exist. Please register an account first.'
             })
+
+        if not user_obj.is_active:
+            status = getattr(user_obj, 'account_status', 'pending')
+            if status == 'pending':
+                msg = 'Your account is pending Barangay Admin approval and Sitio assignment.'
+            elif status == 'suspended':
+                msg = 'Your account has been suspended. Please contact your Barangay Admin.'
+            else:
+                msg = 'Your account is currently deactivated. Please contact your Barangay Admin.'
+            return render(request, 'login/login.html', {'error_message': msg})
 
         user = authenticate(request, username=user_obj.username, password=password)
 
@@ -46,8 +54,14 @@ def logout_view(request):
     return redirect('login')
 
 
+def forgot_password_view(request):
+    submitted = False
+    if request.method == 'POST':
+        submitted = True
+    return render(request, 'login/forgot_password.html', {'submitted': submitted})
+
+
 def csrf_failure_view(request, reason=""):
-    """Gracefully handle CSRF failure instead of raw yellow 403 screen"""
     return render(request, 'login/login.html', {
         'error_message': 'Your security session expired or was refreshed. Please log in again.'
     }, status=200)

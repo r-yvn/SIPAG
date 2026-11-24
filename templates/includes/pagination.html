@@ -1,0 +1,30 @@
+{% if page_obj.paginator.num_pages > 1 %}
+<div class="pagination-bar">
+    <span class="pagination-info">
+        Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }} entries
+    </span>
+    <div class="pagination-controls">
+        {% if page_obj.has_previous %}
+            <a class="page-btn" href="?{% if extra_query %}{{ extra_query }}&{% endif %}{{ page_param }}={{ page_obj.previous_page_number }}">&lsaquo; Prev</a>
+        {% else %}
+            <span class="page-btn disabled">&lsaquo; Prev</span>
+        {% endif %}
+
+        {% for num in elided_range %}
+            {% if num == page_obj.paginator.ELLIPSIS %}
+                <span class="page-ellipsis">&hellip;</span>
+            {% elif num == page_obj.number %}
+                <span class="page-btn active">{{ num }}</span>
+            {% else %}
+                <a class="page-btn" href="?{% if extra_query %}{{ extra_query }}&{% endif %}{{ page_param }}={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="page-btn" href="?{% if extra_query %}{{ extra_query }}&{% endif %}{{ page_param }}={{ page_obj.next_page_number }}">Next &rsaquo;</a>
+        {% else %}
+            <span class="page-btn disabled">Next &rsaquo;</span>
+        {% endif %}
+    </div>
+</div>
+{% endif %}

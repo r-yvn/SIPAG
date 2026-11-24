@@ -1,0 +1,211 @@
+<style>
+    :root {
+        --bg-page: #faf9f5;
+        --bg-sidebar: #184f59;
+        --bg-surface: #ffffff;
+        --bg-surface-hover: #f7fafc;
+        --bg-stat-card: #a3e765;
+        --text-primary: #184f59;
+        --text-body: #222222;
+        --text-muted: #8c9fa3;
+        --border-main: #184f59;
+        --border-subtle: #d9e3e7;
+        --btn-primary: #184f59;
+        --btn-primary-hover: #133f47;
+        --btn-accent: #82d134;
+    }
+
+    /* Soft Light Skin (Distinct from Default Cream/Teal) */
+    body[data-theme="light"] {
+        --bg-page: #eef4f8;
+        --bg-sidebar: #206378;
+        --bg-surface: #ffffff;
+        --bg-surface-hover: #f0f8fc;
+        --bg-stat-card: #bce7f5;
+        --text-primary: #1a4b5c;
+        --text-body: #1f2933;
+        --text-muted: #647c87;
+        --border-main: #206378;
+        --border-subtle: #cfe0e8;
+        --btn-primary: #206378;
+        --btn-primary-hover: #174b5b;
+        --btn-accent: #2ea44f;
+    }
+
+    /* Dark Mode Skin */
+    body[data-theme="dark"] {
+        --bg-page: #0e171a;
+        --bg-sidebar: #112930;
+        --bg-surface: #17262b;
+        --bg-surface-hover: #1f333a;
+        --bg-stat-card: #224d38;
+        --text-primary: #a3e765;
+        --text-body: #e6f0f2;
+        --text-muted: #93aeb5;
+        --border-main: #2b6370;
+        --border-subtle: #253d44;
+        --btn-primary: #25707e;
+        --btn-primary-hover: #1d5a66;
+        --btn-accent: #68b824;
+    }
+
+    body {
+        background-color: var(--bg-page) !important;
+        color: var(--text-primary) !important;
+    }
+
+    .sidebar {
+        background-color: var(--bg-sidebar) !important;
+    }
+
+    .section-title, .page-title, .modal-title, .overview-val, .checkbox-label {
+        color: var(--text-primary) !important;
+    }
+
+    .table-wrap, .settings-card, .overview-card, .modal-card {
+        background-color: var(--bg-surface) !important;
+        border-color: var(--border-main) !important;
+    }
+
+    .actions-table th, .mgmt-table th, .records-table th,
+    .settings-card-header, .overview-header, .calendar-card {
+        background-color: var(--bg-sidebar) !important;
+    }
+
+    .actions-table td, .mgmt-table td, .records-table td {
+        background-color: var(--bg-surface) !important;
+        color: var(--text-body) !important;
+        border-color: var(--border-subtle) !important;
+    }
+
+    .actions-table tbody tr:hover td,
+    .mgmt-table tbody tr:hover td,
+    .records-table tbody tr:hover td {
+        background-color: var(--bg-surface-hover) !important;
+    }
+
+    .stat-card, .admin-stat-card {
+        background-color: var(--bg-stat-card) !important;
+    }
+
+    body[data-theme="dark"] .stat-card-title,
+    body[data-theme="dark"] .stat-number,
+    body[data-theme="dark"] .card-label,
+    body[data-theme="dark"] .card-value {
+        color: #ffffff !important;
+    }
+
+    .btn-add-record, .modal-btn-submit, .btn-save, .btn-pill-teal {
+        background-color: var(--btn-primary) !important;
+    }
+
+    .btn-add-record:hover, .modal-btn-submit:hover, .btn-save:hover, .btn-pill-teal:hover {
+        background-color: var(--btn-primary-hover) !important;
+    }
+
+    .btn-pill-green {
+        background-color: var(--btn-accent) !important;
+    }
+
+    .search-input, .modal-input, .settings-input, .skin-select, .inline-select {
+        background-color: var(--bg-surface) !important;
+        color: var(--text-body) !important;
+        border-color: var(--border-main) !important;
+    }
+
+    body[data-theme="dark"] .calendar-cell {
+        background-color: #1f333a !important;
+        color: #e6f0f2 !important;
+    }
+
+    body[data-theme="dark"] .calendar-cell.empty {
+        background-color: #17262b !important;
+        color: transparent !important;
+    }
+
+    body[data-theme="dark"] .calendar-cell.today {
+        background-color: #a3e765 !important;
+        color: #112930 !important;
+    }
+
+    body[data-theme="dark"] .tab-btn.active {
+        color: #a3e765 !important;
+        border-bottom-color: #a3e765 !important;
+    }
+
+    body[data-theme="dark"] .modal-close,
+    body[data-theme="dark"] .view-value,
+    body[data-theme="dark"] .autocomplete-item {
+        color: #e6f0f2 !important;
+    }
+
+    body[data-theme="dark"] .autocomplete-list {
+        background-color: #17262b !important;
+        border-color: #2b6370 !important;
+    }
+
+    body[data-theme="dark"] .autocomplete-item:hover {
+        background-color: #1f333a !important;
+    }
+    .pagination-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 14px;
+        margin-bottom: 10px;
+    }
+
+    .pagination-info {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        font-weight: 500;
+    }
+
+    .pagination-controls {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .page-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 34px;
+        height: 34px;
+        padding: 0 11px;
+        border-radius: 8px;
+        border: 1.5px solid var(--border-main);
+        background-color: var(--bg-surface);
+        color: var(--text-primary);
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .page-btn:hover:not(.disabled):not(.active) {
+        background-color: var(--bg-surface-hover);
+    }
+
+    .page-btn.active {
+        background-color: var(--btn-primary);
+        color: #ffffff;
+        border-color: var(--btn-primary);
+    }
+
+    .page-btn.disabled {
+        opacity: 0.45;
+        pointer-events: none;
+    }
+
+    .page-ellipsis {
+        padding: 0 6px;
+        color: var(--text-muted);
+        font-weight: 700;
+    }
+</style>

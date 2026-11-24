@@ -88,7 +88,6 @@
             color: #184f59;
             font-weight: 700;
             border-bottom-color: #184f59;
-            text-decoration: underline;
         }
 
         /* Tab Panels */
@@ -293,8 +292,9 @@
             .overview-body { grid-template-columns: 1fr; }
         }
     </style>
+    {% include 'includes/theme_styles.html' %}
 </head>
-<body>
+<body data-theme="{{ user_skin|default:'default' }}">
 
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -445,8 +445,10 @@
                         </div>
                         <div>
                             <div class="skin-label">Choose App Skin</div>
-                            <select class="skin-select">
-                                <option value="default" selected>Default</option>
+                            <select name="skin" class="skin-select">
+                                <option value="default" {% if user_settings.skin == 'default' %}selected{% endif %}>Default (SIPAG Teal)</option>
+                                <option value="light" {% if user_settings.skin == 'light' %}selected{% endif %}>Soft Light</option>
+                                <option value="dark" {% if user_settings.skin == 'dark' %}selected{% endif %}>Dark Mode</option>
                             </select>
                         </div>
                     </div>
@@ -501,22 +503,20 @@
     </main>
 
     <script>
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('panel-' + tabId).classList.add('active');
-        }
+       function switchTab(tabId, btn) {
+           document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+           document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+           btn.classList.add('active');
+           document.getElementById('panel-' + tabId).classList.add('active');
+       }
 
-        // On page load: if messages exist and we know which tab caused them, re-activate that tab
-        // Check URL hash or fallback to details
-        (function() {
-            const hash = window.location.hash.replace('#', '');
-            if (hash === 'password' || hash === 'preference') {
-                const btn = document.querySelector(`.tab-btn[onclick*="${hash}"]`);
-                if (btn) switchTab(hash, btn);
-            }
-        })();
-    </script>
+       (function() {
+           const activeTab = "{{ active_tab|default:'details' }}";
+           if (activeTab === 'password' || activeTab === 'preference') {
+               const btn = document.querySelector(`.tab-btn[onclick*="${activeTab}"]`);
+               if (btn) switchTab(activeTab, btn);
+           }
+       })();
+   </script>
 </body>
 </html>
