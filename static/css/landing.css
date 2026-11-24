@@ -1,149 +1,208 @@
-/* Color Palette & Font Setup */
-:root {
-    --sipag-green: #63d038;
-    --sipag-blue: #38b6ff;
-    --dark-overlay: rgba(0, 0, 0, 0.55);
-    --light-gray-input: #dcdcdc;
-    --text-dark: #222222;
-}
-
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-body {
-    background-color: #f8f9fa;
-    color: var(--text-dark);
-}
-
-/* Button Styles */
-.btn {
-    border: none;
-    padding: 8px 24px;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: transform 0.2s, opacity 0.2s;
-}
-
-.btn:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-}
-
-.btn-green {
-    background-color: var(--sipag-green);
-    color: #ffffff;
-}
-
-.btn-blue {
-    background-color: var(--sipag-blue);
-    color: #ffffff;
-}
-
-/* Form Styles */
-.form-group {
-    margin-bottom: 18px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 500;
-    margin-bottom: 5px;
-    color: #444;
-}
-
-.form-input {
+html, body {
     width: 100%;
-    padding: 10px 15px;
-    border: none;
-    background-color: var(--light-gray-input);
-    border-radius: 18px;
-    outline: none;
-    font-size: 0.95rem;
-}
-
-.form-footer-text {
-    font-size: 0.8rem;
-    color: #666;
-    margin-top: 10px;
-    text-align: center;
-}
-
-.form-footer-text a {
-    color: #000;
-    text-decoration: underline;
-    font-weight: 500;
-}
-
-/* Base Split Container for Login/Register */
-.split-container {
-    display: flex;
-    min-height: 450px;
-    width: 100%;
-    max-width: 950px;
-    margin: 40px auto;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    border-radius: 8px;
-    overflow: hidden;
+    height: 100%;
+    overflow-x: hidden;
     background-color: #ffffff;
 }
 
-.split-form {
-    flex: 1;
-    padding: 50px 60px;
+.landing-container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 100vw;
+    min-height: 100vh;
 }
 
-.split-form h2 {
-    font-size: 1.8rem;
-    margin-bottom: 25px;
-    font-weight: 700;
-}
-
-.split-banner {
-    flex: 1;
+/* Left Side (Dark Image Background) */
+.landing-left {
+    flex: 1.15;
+    position: relative;
+    background: linear-gradient(rgba(18, 38, 44, 0.72), rgba(18, 38, 44, 0.72)), url("../images/landing/landing_background.png");
     background-size: cover;
     background-position: center;
-    position: relative;
-    padding: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 60px 80px;
     color: #ffffff;
 }
 
-.split-banner::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--dark-overlay);
-}
-
-.banner-content {
-    position: relative;
-    z-index: 1;
-}
-
-.banner-title {
-    font-size: 2.2rem;
+.landing-quote {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.1rem;
     font-weight: 800;
-    margin-bottom: 10px;
+    line-height: 1.35;
+    text-align: center;
+    margin-bottom: 32px;
+    letter-spacing: -0.3px;
 }
 
-.banner-title .highlight-green { color: var(--sipag-green); }
-.banner-title .highlight-blue { color: var(--sipag-blue); }
-
-.banner-text {
-    font-size: 0.9rem;
-    line-height: 1.5;
+.landing-desc {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.02rem;
+    line-height: 1.7;
+    text-align: justify;
+    margin-bottom: 50px;
     opacity: 0.95;
+    font-weight: 400;
+}
+
+.landing-badges {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 45px;
+    flex-wrap: wrap;
+}
+
+.badge-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.badge-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+/* Right Side (Clean White Panel) */
+.landing-right {
+    flex: 0.85;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 50px;
+}
+
+.auth-panel {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Top Government Logos */
+.gov-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 45px;
+}
+
+.gov-logo {
+    height: 72px;
+    width: auto;
+    max-width: 80px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.gov-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Main App Logo */
+.app-logo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 48px;
+    width: 100%;
+}
+
+.app-logo {
+    width: 100%;
+    max-width: 330px;
+    height: auto;
+    object-fit: contain;
+}
+
+.app-tagline {
+    font-size: 0.82rem;
+    font-style: italic;
+    color: #777777;
+    margin-top: 10px;
+    letter-spacing: -0.2px;
+}
+
+/* Action Buttons */
+.landing-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.btn-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 52px;
+    border-radius: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.12rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: #ffffff;
+    transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.btn-green {
+    background-color: #82d836;
+}
+
+.btn-green:hover {
+    background-color: #75c62e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(130, 216, 54, 0.35);
+}
+
+.btn-teal {
+    background-color: #1a515c;
+}
+
+.btn-teal:hover {
+    background-color: #143e47;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(26, 81, 92, 0.35);
+}
+
+/* Responsive Design */
+@media (max-width: 960px) {
+    .landing-container {
+        flex-direction: column;
+    }
+    .landing-left {
+        padding: 50px 30px;
+    }
+    .landing-quote {
+        font-size: 1.7rem;
+    }
+    .landing-badges {
+        gap: 25px;
+    }
+    .badge-item {
+        font-size: 1.2rem;
+    }
+    .landing-right {
+        padding: 50px 24px;
+    }
 }

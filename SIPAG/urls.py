@@ -26,5 +26,5 @@ urlpatterns = [
     path('user_settings/', include('apps.user_settings.urls')),
     path('home/', include('apps.home.urls')),
     path('records/', include('apps.records.urls')),
-    path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('', TemplateView.as_view(template_name='landing.html'), name='landing'),
 ]
