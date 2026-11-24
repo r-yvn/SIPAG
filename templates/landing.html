@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPAG - System for Information Profiling and Administrative Governance</title>
+    <!-- Google Fonts: Montserrat & Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600..900;1,600..900&family=Poppins:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}"> 
+</head>
+<body>
+
+    <main class="landing-container">
+        <!-- Left Banner Side -->
+        <section class="landing-left">
+            <h1 class="landing-quote">"Service that is constant, reliable, accurate, and transparent."</h1>
+            
+            <p class="landing-desc">
+                System for Information Profiling and Administrative Governance (SIPAG) is a localized information management web portal designed for Barangay Local Government Units (LGUs) in the Philippines that centralizes household and resident profiling data into an organized digital database to streamline local administration. The system accelerates service delivery, improves accuracy in household tracking, and simplifies resource distribution.
+            </p>
+
+            <div class="landing-badges">
+                <div class="badge-item">
+                    <img src="{% static 'images/landing/check_mark_logo.png' %}" alt="Checkmark" class="badge-icon">
+                    <span>Secure</span>
+                </div>
+                <div class="badge-item">
+                    <img src="{% static 'images/landing/check_mark_logo.png' %}" alt="Checkmark" class="badge-icon">
+                    <span>Trusted</span>
+                </div>
+                <div class="badge-item">
+                    <img src="{% static 'images/landing/check_mark_logo.png' %}" alt="Checkmark" class="badge-icon">
+                    <span>Timely</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Action Side -->
+        <section class="landing-right">
+            <div class="auth-panel">
+                <!-- Government Logos Row -->
+                <div class="gov-logos">
+                    <img src="{% static 'images/landing/republikaPH_logo.png' %}" alt="Republika ng Pilipinas" class="gov-logo">
+                    <img src="{% static 'images/landing/cebuPH_logo.png' %}" alt="City of Cebu Seal" class="gov-logo">
+                    <img src="{% static 'images/landing/psaPH_logo.png' %}" alt="Philippine Statistics Authority" class="gov-logo">
+                </div>
+
+                <!-- SIPAG App Logo -->
+                <div class="app-logo-wrap">
+                    <img src="{% static 'images/core/app_logo.png' %}" alt="SIPAG Logo" class="app-logo">
+                    <p class="app-tagline">System for Information Profiling and Administrative Governance</p>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="landing-actions">
+                    <a href="{% url 'login' %}" class="btn-action btn-green">Login</a>
+                    <a href="{% url 'register' %}" class="btn-action btn-teal">Create an Account</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

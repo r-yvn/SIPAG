@@ -1,0 +1,370 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: #faf9f5;
+    min-height: 100vh;
+    display: flex;
+    color: #184f59;
+    overflow-x: hidden;
+}
+
+/* Fixed Left Sidebar */
+.sidebar {
+    width: 260px;
+    min-width: 260px;
+    background-color: #184f59;
+    color: #ffffff;
+    padding: 40px 0 35px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 0 32px 36px 32px;
+}
+
+.welcome-label {
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 4px;
+}
+
+.user-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+}
+
+.user-role {
+    font-size: 1rem;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.82);
+    font-weight: 400;
+}
+
+/* Navigation Links */
+.nav-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.nav-item {
+    width: 100%;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 32px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background-color 0.15s ease, padding-left 0.15s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(0, 0, 0, 0.12);
+    padding-left: 36px;
+}
+
+.nav-link.active {
+    background-color: rgba(0, 0, 0, 0.22);
+    font-weight: 700;
+}
+
+.nav-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.sidebar-bottom {
+    padding: 0 32px;
+}
+
+.logout-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.98rem;
+    font-weight: 600;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.logout-link:hover {
+    opacity: 0.85;
+    transform: translateX(3px);
+}
+
+/* Main Workspace Container */
+.main-content {
+    margin-left: 260px;
+    flex: 1;
+    padding: 35px 50px 45px 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top SIPAG Logo */
+.top-header {
+    margin-bottom: 25px;
+}
+
+.brand-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Dashboard Split Layout */
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* Stat Cards Grid (2 cols x 4 rows) */
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 20px;
+}
+
+.stat-card {
+    background-color: #a3e765;
+    border-radius: 18px;
+    padding: 14px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 104px;
+    box-shadow: 0 4px 12px rgba(163, 231, 101, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(163, 231, 101, 0.35);
+}
+
+.card-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #184f59;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.card-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+.card-icon {
+    height: 38px;
+    width: auto;
+    max-width: 48px;
+    object-fit: contain;
+}
+
+.card-value {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: #184f59;
+    line-height: 1;
+}
+
+/* Right Column: Calendar & Action Button */
+.right-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 22px;
+}
+
+.calendar-card {
+    background-color: #184f59;
+    border-radius: 20px;
+    padding: 24px 26px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 8px 24px rgba(24, 79, 89, 0.25);
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.year-badge {
+    background-color: #a3e765;
+    color: #184f59;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 800;
+    padding: 5px 18px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+.month-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.month-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.month-underline {
+    width: 100%;
+    min-width: 175px;
+    height: 2px;
+    background-color: #ffffff;
+    margin-top: 6px;
+}
+
+/* Days Strip */
+.days-header {
+    background-color: #a3e765;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 6px 0;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.day-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #184f59;
+    letter-spacing: -0.2px;
+}
+
+/* Calendar Grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    width: 100%;
+}
+
+.calendar-cell {
+    background-color: #ffffff;
+    aspect-ratio: 1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #184f59;
+    transition: background-color 0.15s ease;
+}
+
+.calendar-cell.empty {
+    background-color: #ffffff;
+    color: transparent;
+}
+
+.calendar-cell.today {
+    background-color: #a3e765;
+    color: #184f59;
+    font-weight: 800;
+    box-shadow: 0 0 6px rgba(163, 231, 101, 0.6);
+}
+
+/* Action Button */
+.btn-add-record {
+    background-color: #184f59;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(24, 79, 89, 0.2);
+}
+
+.btn-add-record:hover {
+    background-color: #133f47;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(24, 79, 89, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 1180px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+    .right-column {
+        align-items: center;
+    }
+    .calendar-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        height: auto;
+    }
+    .main-content {
+        margin-left: 0;
+        padding: 24px 20px;
+    }
+    .stat-grid {
+        grid-template-columns: 1fr;
+    }
+}
